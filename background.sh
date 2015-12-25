@@ -1,6 +1,26 @@
 #!/bin/bash
 
 ###################################################
+#     ekran przed gra
+###################################################
+
+clear
+tput setaf 4
+echo -e "\n\n"
+echo "       OOO       OOO      OOOOO       OOOOOOO     OOOOOOO     OOOOO"
+echo "       OOOO     OOOO     OOOOOOO     OOOOOOOOO    OOOOOOO    OOOOOOO"
+echo "       OOOOO   OOOOO    OOO   OOO    OOO    OOO     OOO     OOO   OOO"
+echo "       OOOOOO OOOOOO   OOO     OOO   OOO    OOO     OOO    OOO     OOO"
+echo "       OOO OOOOO OOO   OOOOOOOOOOO   OOOOOOOOOO     OOO    OOO     OOO"
+echo "       OOO  OOO  OOO   OOOOOOOOOOO   OOOOOOOO       OOO    OOO     OOO "
+echo "       OOO   O   OOO   OOO     OOO   OOO  OOO       OOO     OOO   OOO"
+echo "       OOO       OOO   OOO     OOO   OOO   OOO    OOOOOOO    OOOOOOO"
+echo "       OOO       OOO   OOO     OOO   OOO    OOO   OOOOOOO     OOOOO"
+echo -e "\n\n\n\n\n"
+echo "              Nacisnij dowolny klawisz zeby rozpoczac rozgrywke."
+read zmienna
+
+###################################################
 #     wstepny zarys planszy
 ###################################################
 tput civis
