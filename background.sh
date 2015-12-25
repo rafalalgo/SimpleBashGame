@@ -3,7 +3,8 @@
 ###################################################
 #     ekran przed gra
 ###################################################
-
+tput civis
+tput bold
 clear
 tput setaf 4
 echo -e "\n\n"
@@ -23,8 +24,6 @@ read zmienna
 ###################################################
 #     wstepny zarys planszy
 ###################################################
-tput civis
-tput bold
 tput setaf 4
 K=80;
 M=16;
