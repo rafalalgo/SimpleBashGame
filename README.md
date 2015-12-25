@@ -13,3 +13,6 @@ Przeszkody będą się pojawiać od prawej strony ekranu w losowych miejscach na
 Reszta Pomysłów Do Realizacji:
 1. W grze będą się pojawiać monety, które gracz będzie mógł zbierać i dostawać punkty, a także serca dodające życie. Gracz ma wstępnie załadowany pakiet trzech żyć, liczby trzech żyć nie może także przekroczyć zbierając serca.
 2. Postać zostanie wyposażona w pistolet, którym będzie mogła zabijać trzeci typ przeszkód, którym będą jakieś ludki, które będą się zbliżać w jej stronę, ale w miarę możliwości będzie je mogła także przeskakiwać.
+
+Podział zadań nie jest jeszcze znany, będzie ustalany na bieżąco, póki co:
+1. Rafał Byczek - rysowanie kolorowej planszy do gry.
