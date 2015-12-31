@@ -1,5 +1,86 @@
 #!/bin/bash
 
+rysuj_postac_stojaca()
+{
+tput setab 3
+tput setaf 3
+tput cup 11 9; echo "   "
+tput cup 12 8; echo "     "
+tput cup 13 9; echo "   "
+tput cup 14 10; echo " "
+tput setab 1
+tput setaf 1
+tput cup 15 6;  echo "         "
+tput cup 16 6;  echo -n " "
+tput setab 2
+tput setaf 2
+echo -n "^"
+tput setab 1
+tput setaf 1
+echo -n "     "
+tput setab 2
+tput setaf 2
+echo -n "^"
+tput setab 1
+tput setaf 1
+echo -n " "
+tput cup 17 6;  
+echo -n " "
+tput setab 2
+tput setaf 2
+echo -n "^"
+tput setab 1
+tput setaf 1
+echo -n "     "
+tput setab 2
+tput setaf 2
+echo -n "^"
+tput setab 1
+tput setaf 1
+echo -n " "
+tput cup 18 6;  
+tput setab 3
+tput setaf 3
+echo -n " "
+tput setab 2
+tput setaf 2
+echo -n "^"
+tput setab 1
+tput setaf 1
+echo -n "     "
+tput setab 2
+tput setaf 2
+echo -n "^"
+tput setab 3
+tput setaf 3
+echo -n " "
+tput setab 1
+tput setaf 1
+tput cup 19 8;  echo -n "  "
+tput setab 2
+tput setaf 2
+echo -n "^"
+tput setab 1
+tput setaf 1
+echo -n "  " 
+tput cup 20 8;  echo -n "  "
+tput setab 2
+tput setaf 2
+echo -n "^"
+tput setab 1
+tput setaf 1
+echo -n "  " 
+tput setab 7
+tput setaf 7
+tput cup 21 7;  echo -n "   "
+tput setab 2
+tput setaf 2
+echo -n "^"
+tput setab 7
+tput setaf 7
+echo -n "   "
+}
+
 printf_ekran()
 {
 ###################################################
@@ -157,12 +238,11 @@ done
 
 printf_ekran
 
+
+
 while [ $t == 1 ];
 do
-	tput setab 3
-	tput setaf 3
-	tput cup 2 3
-	echo "o"
+	rysuj_postac_stojaca
 done
 
 #Rafał Byczek
