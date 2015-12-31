@@ -1,5 +1,35 @@
 #!/bin/bash
 
+#rysuj_postac_lezaca()
+#{
+#	
+#}
+
+wyczysc_dol_planszy()
+{
+for((i=14;i<=21;i++))
+do
+	for((j=6;j<=14;j++))
+	do
+		tput setab 2
+		tput setaf 2
+		tput cup $i $j
+		echo -n "^"
+	done
+done
+
+for((i=10;i<=13;i++))
+do
+	for((j=6;j<=14;j++))
+	do
+		tput setab 4
+		tput setaf 4
+		tput cup $i $j
+		echo -n "s"
+	done
+done
+}
+
 rysuj_postac_stojaca()
 {
 tput setab 3
@@ -238,11 +268,30 @@ done
 
 printf_ekran
 
+stan=1
 
+rysuj_postac_stojaca
 
-while [ $t == 1 ];
+while [ $t -eq 1 ] || [ $t -eq 2 ];
 do
-	rysuj_postac_stojaca
+	if [ $t -eq 1 ] && [ $stan -eq 2 ];
+	then
+		wyczysc_dol_planszy
+		rysuj_postac_stojaca
+		stan=1
+	fi
+	
+	if [ $t -eq 2 ] && [ $stan -eq 1 ];
+	then
+		wyczysc_dol_planszy
+		#rysuj_postac_lezaca
+		stan=2
+	fi
+	
+	tput setab 2
+	tput setaf 2
+	tput cup 25 80
+	read -rsn1 -d '' t
 done
 
 #Rafał Byczek
