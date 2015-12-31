@@ -5,30 +5,10 @@
 #	
 #}
 
-wyczysc_dol_planszy()
-{
-for((i=14;i<=21;i++))
-do
-	for((j=6;j<=14;j++))
-	do
-		tput setab 2
-		tput setaf 2
-		tput cup $i $j
-		echo -n "^"
-	done
-done
-
-for((i=10;i<=13;i++))
-do
-	for((j=6;j<=14;j++))
-	do
-		tput setab 4
-		tput setaf 4
-		tput cup $i $j
-		echo -n "s"
-	done
-done
-}
+#rysuj_postac_kucajaca()
+#{
+#	
+#}
 
 rysuj_postac_stojaca()
 {
@@ -109,6 +89,31 @@ echo -n "^"
 tput setab 7
 tput setaf 7
 echo -n "   "
+}
+
+wyczysc_dol_planszy()
+{
+for((i=14;i<=21;i++))
+do
+	for((j=6;j<=14;j++))
+	do
+		tput setab 2
+		tput setaf 2
+		tput cup $i $j
+		echo -n "^"
+	done
+done
+
+for((i=10;i<=13;i++))
+do
+	for((j=6;j<=14;j++))
+	do
+		tput setab 4
+		tput setaf 4
+		tput cup $i $j
+		echo -n "s"
+	done
+done
 }
 
 printf_ekran()
@@ -269,15 +274,28 @@ done
 printf_ekran
 
 stan=1
+min=11
+max=21
 
 rysuj_postac_stojaca
 
-while [ $t -eq 1 ] || [ $t -eq 2 ];
+while [ $t -eq 1 ] || [ $t -eq 2 ] || [ $t -eq 3 ];
 do
 	if [ $t -eq 1 ] && [ $stan -eq 2 ];
 	then
 		wyczysc_dol_planszy
 		rysuj_postac_stojaca
+		min=11
+		max=21
+		stan=1
+	fi
+	
+	if [ $t -eq 1 ] && [ $stan -eq 3 ];
+	then
+		wyczysc_dol_planszy
+		rysuj_postac_stojaca
+		min=11
+		max=21
 		stan=1
 	fi
 	
@@ -286,6 +304,27 @@ do
 		wyczysc_dol_planszy
 		#rysuj_postac_lezaca
 		stan=2
+	fi
+	
+	if [ $t -eq 2 ] && [ $stan -eq 3 ];
+	then
+		wyczysc_dol_planszy
+		#rysuj_postac_lezaca
+		stan=2
+	fi
+	
+	if [ $t -eq 3 ] && [ $stan -eq 1 ];
+	then
+		wyczysc_dol_planszy
+		#rysuj_postac_kucajaca
+		stan=3
+	fi
+	
+	if [ $t -eq 3 ] && [ $stan -eq 2 ];
+	then
+		wyczysc_dol_planszy
+		#rysuj_postac_kucajaca
+		stan=3
 	fi
 	
 	tput setab 2
