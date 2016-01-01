@@ -8,64 +8,55 @@ rysuj_postac_kucajaca()
 	# GŁOWA
 	tput setab 7
 	tput setaf 7
-	tput cup 13 9; echo "#"
-	tput setab 3
-	tput setaf 3
-	tput cup 13 10; echo " "
-	tput setab 7
-	tput setaf 7
-	tput cup 13 11; echo "#"
-	tput setab 3
-	tput setaf 3
-	tput cup 14 8; echo " "
-	tput setab 9
-	tput setaf 9
-	tput cup 14 9; echo "*"
+	tput cup 14 9; echo "#"
 	tput setab 3
 	tput setaf 3
 	tput cup 14 10; echo " "
-	tput setab 9
-	tput setaf 9
-	tput cup 14 11; echo "*"
+	tput setab 7
+	tput setaf 7
+	tput cup 14 11; echo "#"
 	tput setab 3
 	tput setaf 3
-	tput cup 14 12; echo " "
-	tput cup 15 9; echo "[-]"
+	tput cup 15 8; echo " "
+	tput setab 9
+	tput setaf 9
+	tput cup 15 9; echo "*"
+	tput setab 3
+	tput setaf 3
+	tput cup 15 10; echo " "
+	tput setab 9
+	tput setaf 9
+	tput cup 15 11; echo "*"
+	tput setab 3
+	tput setaf 3
+	tput cup 15 12; echo " "
+	tput cup 16 9; echo "[-]"
 	tput setab 1
 	tput setaf 1
-	tput cup 16 9; echo ">-<"
+	tput cup 17 9; echo ">-<"
 	#KLATKA PIERSIOWA
 	tput setab 9
 	tput setaf 9
-	tput cup 17 7;  echo "   "
-	tput setab 7
-	tput setaf 7
-	tput cup 17 10;  echo " "
-	tput setab 9
-	tput setaf 9
-	tput cup 17 11;  echo "  "
-	tput cup 18 6;  echo "   "
-	tput setab 3
-	tput setaf 3
-	tput cup 18 9;  echo "="
+	tput cup 18 7;  echo "   "
 	tput setab 7
 	tput setaf 7
 	tput cup 18 10;  echo " "
 	tput setab 9
 	tput setaf 9
-	tput cup 18 11;  echo "   "
+	tput cup 18 11;  echo "  "
+	tput cup 19 6;  echo "   "
 	tput setab 3
 	tput setaf 3
-	tput cup 18 14;  echo "="
-	tput setab 9
-	tput setaf 9
-	tput cup 19 8;  echo "  "
+	tput cup 19 9;  echo "="
 	tput setab 7
 	tput setaf 7
 	tput cup 19 10;  echo " "
 	tput setab 9
 	tput setaf 9
-	tput cup 19 11;  echo "  "
+	tput cup 19 11;  echo "   "
+	tput setab 3
+	tput setaf 3
+	tput cup 19 14;  echo "="
 	tput setab 3
 	tput setab 7
 	tput setaf 7
