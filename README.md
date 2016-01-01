@@ -16,3 +16,4 @@ Reszta Pomysłów Do Realizacji:
 
 Podział zadań nie jest jeszcze znany, będzie ustalany na bieżąco, póki co:
 1. Rafał Byczek - rysowanie kolorowej planszy do gry.
+2. Dawid Rączka - rysowanie postaci stojącej i kucającej

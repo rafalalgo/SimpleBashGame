@@ -226,6 +226,7 @@ echo "       OOO       OOO   OOO     OOO   OOO   OOO    OOOOOOO    OOOOOOO"
 echo "       OOO       OOO   OOO     OOO   OOO    OOO   OOOOOOO     OOOOO"
 echo -e "\n\n"
 tput setaf 3
+
 echo "      			   JKM SPECIAL EDITION"
 tput setaf 4
 echo -e "\n\n"
@@ -390,7 +391,7 @@ do
 		max=21
 		stan=2
 	fi
-	
+
 	tput setab 2
 	tput setaf 2
 	tput cup 25 80
