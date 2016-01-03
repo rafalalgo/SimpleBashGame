@@ -10,6 +10,7 @@ clear
 #tablica		#tu trzymamy co jest na planszy
 #kolor_znaku	#tu trzymamy numer koloru znaku
 #kolor_tla		#tu trzymamy numer koloru tla
+#RURKOWIEC		#tu trzymamy R w komorce jezeli jest rurkowiec na polu
 
 #odwolywanie tablica[$[i*K+j]] zwraca znak w i tym wierszu i j tej kolumnie
 
@@ -19,6 +20,7 @@ clear
 # 	 p - pnie drzew
 #	 k - korona drzew
 #	 o - sloneczko
+#	 R - rurkowiec
 
 #######################################################################################
 
@@ -292,11 +294,70 @@ wypis_wyniku()
 	tput cup 1 $[57 - ${#wynik}]; tput setab 1; tput setaf 7; echo -n "Twoj aktualny wynik to "$wynik
 }
 
+rysuj_rurkowca()
+{
+	KOLUMNA=$RANDOM;
+	WIERSZ=76;
+	let "KOLUMNA %= 12";
+	KOLUMNA=$[KOLUMNA+10];
+	tput cup $KOLUMNA $WIERSZ;
+	RURKOWIEC[$[KOLUMNA*K+WIERSZ]]="R";
+	RURKOWIEC[$[KOLUMNA*K+WIERSZ+1]]="R";
+	RURKOWIEC[$[KOLUMNA*K+WIERSZ+2]]="R";
+	RURKOWIEC[$[KOLUMNA*K+WIERSZ+3]]="R";
+	tput setab 1;
+	tput setaf 1;
+	echo "    ";
+	tput cup $[KOLUMNA+1] $WIERSZ;
+	RURKOWIEC[$[$[KOLUMNA+1]*K+WIERSZ]]="R";
+	RURKOWIEC[$[$[KOLUMNA+1]*K+WIERSZ+1]]="R";
+	RURKOWIEC[$[$[KOLUMNA+1]*K+WIERSZ+2]]="R";
+	RURKOWIEC[$[$[KOLUMNA+1]*K+WIERSZ+3]]="R";
+	tput setab 1;
+	tput setaf 1;
+	echo "    ";
+}
+
+uaktualnij()
+{
+	for((i=1;i<=$W;i++))
+	do
+		for((j=2;j<=$K;j++))
+		do
+			if [ "${RURKOWIEC[$[i*K+j]]}" == "R" ]
+			then
+				tput setab ${kolor_tla[$[i*K+j]]};
+				tput setaf ${kolor_znaku[$[i*K+j]]};
+				
+				tput cup $i $j
+				
+				if [ ${tablica[$[i*K+j]]} == "p" ]
+				then
+					echo -n " "
+				elif [ ${tablica[$[i*K+j]]} == "k" ]
+				then
+					echo -n "*"
+				else
+					echo -n ${tablica[$[i*K+j]]}
+				fi
+				
+				RURKOWIEC[$[i*K+j]]="";
+				RURKOWIEC[$[i*K+j-1]]="R";
+				tput setab 1;
+				tput setaf 1;
+				tput cup $i $[j-1];
+				echo " ";
+			fi
+		done
+	done
+}
+
 #program glowny
 
-welcome
-rysowanie_planszy
-rysuj_postac_stojaca
+welcome;
+rysowanie_planszy;
+rysuj_postac_stojaca;
+rysuj_rurkowca;
 
 while [ $controller -eq 1 ] || [ $controller -eq 2 ] ;
 do
@@ -319,7 +380,9 @@ do
 		max=21;
 		stan=2;
 	fi
-	wynik=$[wynik+1]
+	wynik=$[wynik+1];
+	uaktualnij;
+	
 	tput setab 2; tput setaf 2; tput cup 25 84; read -rsn1 -d '' controller;
 done
 
