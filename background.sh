@@ -91,22 +91,16 @@ rysuj_postac_stojaca() #funkcja rysujaca postac w trybie stojacym
 	tput setab 9; tput setaf 9; tput cup 16 6;  echo "    ";
 	tput setab 7; tput setaf 7; tput cup 16 10; echo " ";
 	tput setab 9; tput setaf 9; tput cup 16 11; echo "    ";
-	tput setab 9; tput setaf 9; tput cup 17 6;  echo "    ";
-	tput setab 7; tput setaf 7; tput cup 17 10; echo " ";
-	tput setab 9; tput setaf 9; tput cup 17 11; echo "    ";
-	tput setab 3; tput setaf 3; tput cup 18 6;  echo "||";
-	tput setab 9; tput setaf 9; tput cup 18 8;  echo "     ";
-	tput setab 3; tput setaf 3; tput cup 18 13; echo "||";
+	tput setab 3; tput setaf 3; tput cup 17 6;  echo "||";
+	tput setab 9; tput setaf 9; tput cup 17 8;  echo "     ";
+	tput setab 3; tput setaf 3; tput cup 17 13; echo "||";
 	
 	#SPODNIE
 	
-	tput setab 9; tput setaf 9; tput cup 19 8;  echo -n "  ";
+	tput setab 9; tput setaf 9; tput cup 18 8;  echo -n "  ";
 	tput setab 2; tput setaf 2;                 echo -n "^";
 	tput setab 9; tput setaf 9;				    echo -n "  "; 
-	tput setab 9; tput setaf 9; tput cup 20 8;  echo -n "  ";
-	tput setab 2; tput setaf 2;				    echo -n "^";
-	tput setab 9; tput setaf 9;				    echo -n "  "; 
-	tput setab 7; tput setaf 7; tput cup 21 7;  echo -n "   ";
+	tput setab 7; tput setaf 7; tput cup 19 7;  echo -n "   ";
 	tput setab 2; tput setaf 2;				 	echo -n "^";
 	tput setab 7; tput setaf 7;				 	echo -n "   ";
 }
@@ -289,6 +283,11 @@ kontrolny_wypis_tablicy_zgodny_z_kolorami()
 	done
 }
 
+wypis_koncowego_wyniku()
+{
+	tput cup 1 $[58 - ${#wynik}]; tput setab 1; tput setaf 7; echo -n "Twoj koncowy wynik to "$wynik
+}
+
 wypis_wyniku()
 {
 	tput cup 1 $[57 - ${#wynik}]; tput setab 1; tput setaf 7; echo -n "Twoj aktualny wynik to "$wynik
@@ -322,10 +321,11 @@ uaktualnij()
 {
 	for((i=1;i<=$W;i++))
 	do
-		for((j=2;j<=$K;j++))
+		for((j=1;j<=$K;j++))
 		do
 			if [ "${RURKOWIEC[$[i*K+j]]}" == "R" ]
 			then
+				
 				tput setab ${kolor_tla[$[i*K+j]]};
 				tput setaf ${kolor_znaku[$[i*K+j]]};
 				
@@ -342,11 +342,15 @@ uaktualnij()
 				fi
 				
 				RURKOWIEC[$[i*K+j]]="";
-				RURKOWIEC[$[i*K+j-1]]="R";
-				tput setab 1;
-				tput setaf 1;
-				tput cup $i $[j-1];
-				echo " ";
+				
+				if [ $[j-1] -ne 0 ]
+				then
+					RURKOWIEC[$[i*K+j-1]]="R";
+					tput setab 1;
+					tput setaf 1;
+					tput cup $i $[j-1];
+					echo " ";
+				fi
 			fi
 		done
 	done
@@ -368,7 +372,7 @@ do
 		wyczysc_dol_planszy;
 		rysuj_postac_stojaca;
 		min=11;
-		max=21;
+		max=19;
 		stan=1;
 	fi
 	
@@ -380,7 +384,7 @@ do
 		max=21;
 		stan=2;
 	fi
-	wynik=$[wynik+1];
+	
 	uaktualnij;
 	
 	tput setab 2; tput setaf 2; tput cup 25 84; read -rsn1 -d '' controller;
