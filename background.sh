@@ -363,10 +363,16 @@ rysowanie_planszy;
 rysuj_postac_stojaca;
 rysuj_rurkowca;
 
-while [ $controller -eq 1 ] || [ $controller -eq 2 ] ;
+while :
 do
-	wypis_wyniku;
+	A=1
+	B=2
+	if [ $X -ne A ] && [ $X -ne B ]
+	then
+		controller=stan
+	fi
 	
+	wypis_wyniku;
 	if [ $controller -eq 1 ] && [ $stan -eq 2 ];
 	then
 		wyczysc_dol_planszy;
@@ -387,7 +393,7 @@ do
 	
 	uaktualnij;
 	
-	tput setab 2; tput setaf 2; tput cup 25 84; read -rsn1 -d '' controller;
+	tput setab 2; tput setaf 2; tput cup 25 84; read -t 0.01 -rsn1 -d '' X;
 done
 
 #kontrolny_wypis_tablicy_zgodny_z_kolorami;
