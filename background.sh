@@ -34,77 +34,98 @@ wynik=0;		#aktualny wynik gracza
 
 #funkcje
 
-rysuj_postac_kucajaca() #funkcja rysujaca postac w trybie kucania
+rysuj_postac_skaczaca() #funkcja rysujaca postac w trybie skoku - $1=y wysokosci na jakiej znajdują się stopy
 {
 	# GŁOWA
-	
-	tput setab 7; tput setaf 7; tput cup 14 9;  echo "#";
-	tput setab 3; tput setaf 3;	tput cup 14 10; echo " ";
-	tput setab 7; tput setaf 7; tput cup 14 11; echo "#";
-	tput setab 3; tput setaf 3; tput cup 15 8;  echo " ";
-	tput setab 9; tput setaf 9; tput cup 15 9;  echo "*";
-	tput setab 3; tput setaf 3; tput cup 15 10; echo " ";
-	tput setab 9; tput setaf 9; tput cup 15 11; echo "*";
-	tput setab 3; tput setaf 3; tput cup 15 12; echo " ";
-	tput setab 3; tput setaf 3; tput cup 16 9;  echo "[-]";
-	tput setab 1; tput setaf 1; tput cup 17 9;  echo ">-<";
+	tput setab 7; tput setaf 7; tput cup $[$1-6] 9;  echo "#";
+	tput setab 3; tput setaf 3;	tput cup $[$1-6] 10; echo " ";
+	tput setab 7; tput setaf 7; tput cup $[$1-6] 11; echo "#";
+	tput setab 3; tput setaf 3; tput cup $[$1-5] 8;  echo " ";
+	tput setab 9; tput setaf 9; tput cup $[$1-5] 9;  echo "*";
+	tput setab 3; tput setaf 3; tput cup $[$1-5] 10; echo " ";
+	tput setab 9; tput setaf 9; tput cup $[$1-5] 11; echo "*";
+	tput setab 3; tput setaf 3; tput cup $[$1-5] 12; echo " ";
+	tput setab 3; tput setaf 3; tput cup $[$1-4] 9;  echo "[-]";
+	tput setab 1; tput setaf 1; tput cup $[$1-3] 9;  echo ">-<";
 	
 	#KLATKA PIERSIOWA
-	
-	tput setab 9; tput setaf 9; tput cup 18 7;  echo "   ";
-	tput setab 7; tput setaf 7; tput cup 18 10; echo " ";
-	tput setab 9; tput setaf 9; tput cup 18 11; echo "  "
-	tput setab 9; tput setaf 9; tput cup 19 6;  echo "   ";
-	tput setab 3; tput setaf 3; tput cup 19 9;  echo "=";
-	tput setab 7; tput setaf 7; tput cup 19 10; echo " ";
-	tput setab 9; tput setaf 9; tput cup 19 11; echo "   ";
-	tput setab 3; tput setaf 3; tput cup 19 14; echo "=";
-	tput setab 7; tput setaf 7; tput cup 20 7;  echo " ";
-	tput setab 9; tput setaf 9; tput cup 20 8;  echo "     ";
-	tput setab 7; tput setaf 7; tput cup 21 7;  echo " ";
-	tput setab 9; tput setaf 9; tput cup 21 8;  echo "  ";
-	tput setab 7; tput setaf 7; tput cup 21 11; echo "   ";
+	tput setab 3; tput setaf 3; tput cup $[$1-2] 6;  echo "=";
+	tput setab 9; tput setaf 9; tput cup $[$1-2] 7;  echo "   ";
+	tput setab 7; tput setaf 7; tput cup $[$1-2] 10; echo " ";
+	tput setab 9; tput setaf 9; tput cup $[$1-2] 11; echo "   "
+	tput setab 3; tput setaf 3; tput cup $[$1-2] 14;  echo "=";
+	tput setab 9; tput setaf 9; tput cup $[$1-1] 8;  echo "  ";
+	tput setab 7; tput setaf 7; tput cup $[$1-1] 10; echo " ";
+	tput setab 9; tput setaf 9; tput cup $[$1-1] 11; echo "  ";
+	tput setab 7; tput setaf 7; tput cup $1 6;  echo " ";
+	tput setab 9; tput setaf 9; tput cup $1 7;  echo "       ";
+	tput setab 7; tput setaf 7; tput cup $1 14;  echo " ";
 }
 
-rysuj_postac_stojaca() #funkcja rysujaca postac w trybie stojacym
+rysuj_postac_kucajaca() #funkcja rysujaca postac w trybie kucania - $1=y wysokosci na jakiej znajdują się stopy
 {
 	# GŁOWA
-	
-	tput setab 7; tput setaf 7; tput cup 11 9;  echo "#";
-	tput setab 3; tput setaf 3; tput cup 11 10; echo " ";
-	tput setab 7; tput setaf 7; tput cup 11 11; echo "#";
-	tput setab 3; tput setaf 3; tput cup 12 8;  echo " ";
-	tput setab 9; tput setaf 9; tput cup 12 9;  echo "*";
-	tput setab 3; tput setaf 3; tput cup 12 10; echo " ";
-	tput setab 9; tput setaf 9; tput cup 12 11; echo "*";
-	tput setab 3; tput setaf 3; tput cup 12 12; echo " ";
-	tput setab 3; tput setaf 3; tput cup 13 9;  echo "[-]";
-	tput setab 1; tput setaf 1; tput cup 14 9;  echo ">-<";
+	tput setab 7; tput setaf 7; tput cup $[$1-7] 9;  echo "#";
+	tput setab 3; tput setaf 3;	tput cup $[$1-7] 10; echo " ";
+	tput setab 7; tput setaf 7; tput cup $[$1-7] 11; echo "#";
+	tput setab 3; tput setaf 3; tput cup $[$1-6] 8;  echo " ";
+	tput setab 9; tput setaf 9; tput cup $[$1-6] 9;  echo "*";
+	tput setab 3; tput setaf 3; tput cup $[$1-6] 10; echo " ";
+	tput setab 9; tput setaf 9; tput cup $[$1-6] 11; echo "*";
+	tput setab 3; tput setaf 3; tput cup $[$1-6] 12; echo " ";
+	tput setab 3; tput setaf 3; tput cup $[$1-5] 9;  echo "[-]";
+	tput setab 1; tput setaf 1; tput cup $[$1-4] 9;  echo ">-<";
 	
 	#KLATKA PIERSIOWA
 	
-	tput setab 9; tput setaf 9; tput cup 15 7;  echo "   ";
-	tput setab 7; tput setaf 7; tput cup 15 10; echo " ";
-	tput setab 9; tput setaf 9; tput cup 15 11; echo "   ";
-	tput setab 9; tput setaf 9; tput cup 16 6;  echo "    ";
-	tput setab 7; tput setaf 7; tput cup 16 10; echo " ";
-	tput setab 9; tput setaf 9; tput cup 16 11; echo "    ";
-	tput setab 9; tput setaf 9; tput cup 17 6;  echo "    ";
-	tput setab 7; tput setaf 7; tput cup 17 10; echo " ";
-	tput setab 9; tput setaf 9; tput cup 17 11; echo "    ";
-	tput setab 3; tput setaf 3; tput cup 18 6;  echo "||";
-	tput setab 9; tput setaf 9; tput cup 18 8;  echo "     ";
-	tput setab 3; tput setaf 3; tput cup 18 13; echo "||";
+	tput setab 9; tput setaf 9; tput cup $[$1-3] 7;  echo "   ";
+	tput setab 7; tput setaf 7; tput cup $[$1-3] 10; echo " ";
+	tput setab 9; tput setaf 9; tput cup $[$1-3] 11; echo "  "
+	tput setab 9; tput setaf 9; tput cup $[$1-2] 6;  echo "   ";
+	tput setab 3; tput setaf 3; tput cup $[$1-2] 9;  echo "=";
+	tput setab 7; tput setaf 7; tput cup $[$1-2] 10; echo " ";
+	tput setab 9; tput setaf 9; tput cup $[$1-2] 11; echo "   ";
+	tput setab 3; tput setaf 3; tput cup $[$1-2] 14; echo "=";
+	tput setab 7; tput setaf 7; tput cup $[$1-1] 7;  echo " ";
+	tput setab 9; tput setaf 9; tput cup $[$1-1] 8;  echo "     ";
+	tput setab 7; tput setaf 7; tput cup $1 7;  echo " ";
+	tput setab 9; tput setaf 9; tput cup $1 8;  echo "  ";
+	tput setab 7; tput setaf 7; tput cup $1 11; echo "   ";
+}
+
+rysuj_postac_stojaca() #funkcja rysujaca postac w trybie stojacym - $1=y wysokosci na jakiej znajdują się stopy
+{
+	# GŁOWA
+	
+	tput setab 7; tput setaf 7; tput cup $[$1-8] 9;  echo "#";
+	tput setab 3; tput setaf 3; tput cup $[$1-8] 10; echo " ";
+	tput setab 7; tput setaf 7; tput cup $[$1-8] 11; echo "#";
+	tput setab 3; tput setaf 3; tput cup $[$1-7] 8;  echo " ";
+	tput setab 9; tput setaf 9; tput cup $[$1-7] 9;  echo "*";
+	tput setab 3; tput setaf 3; tput cup $[$1-7] 10; echo " ";
+	tput setab 9; tput setaf 9; tput cup $[$1-7] 11; echo "*";
+	tput setab 3; tput setaf 3; tput cup $[$1-7] 12; echo " ";
+	tput setab 3; tput setaf 3; tput cup $[$1-6] 9;  echo "[-]";
+	tput setab 1; tput setaf 1; tput cup $[$1-5] 9;  echo ">-<";
+	
+	#KLATKA PIERSIOWA
+	
+	tput setab 9; tput setaf 9; tput cup $[$1-4] 7;  echo "   ";
+	tput setab 7; tput setaf 7; tput cup $[$1-4] 10; echo " ";
+	tput setab 9; tput setaf 9; tput cup $[$1-4] 11; echo "   ";
+	tput setab 9; tput setaf 9; tput cup $[$1-3] 6;  echo "    ";
+	tput setab 7; tput setaf 7; tput cup $[$1-3] 10; echo " ";
+	tput setab 9; tput setaf 9; tput cup $[$1-3] 11; echo "    ";
+	tput setab 3; tput setaf 3; tput cup $[$1-2] 6;  echo "||";
+	tput setab 9; tput setaf 9; tput cup $[$1-2] 8;  echo "     ";
+	tput setab 3; tput setaf 3; tput cup $[$1-2] 13; echo "||";
 	
 	#SPODNIE
 	
-	tput setab 9; tput setaf 9; tput cup 19 8;  echo -n "  ";
+	tput setab 9; tput setaf 9; tput cup $[$1-1] 8;  echo -n "  ";
 	tput setab 2; tput setaf 2;                 echo -n "^";
 	tput setab 9; tput setaf 9;				    echo -n "  "; 
-	tput setab 9; tput setaf 9; tput cup 20 8;  echo -n "  ";
-	tput setab 2; tput setaf 2;				    echo -n "^";
-	tput setab 9; tput setaf 9;				    echo -n "  "; 
-	tput setab 7; tput setaf 7; tput cup 21 7;  echo -n "   ";
+	tput setab 7; tput setaf 7; tput cup $1 7;  echo -n "   ";
 	tput setab 2; tput setaf 2;				 	echo -n "^";
 	tput setab 7; tput setaf 7;				 	echo -n "   ";
 }
@@ -296,7 +317,8 @@ wypis_wyniku()
 
 welcome
 rysowanie_planszy
-rysuj_postac_stojaca
+y=19; #wspolrzedna y-kowa stop postaci
+rysuj_postac_stojaca $y;
 
 while [ $controller -eq 1 ] || [ $controller -eq 2 ] ;
 do
@@ -305,7 +327,8 @@ do
 	if [ $controller -eq 1 ] && [ $stan -eq 2 ];
 	then
 		wyczysc_dol_planszy;
-		rysuj_postac_stojaca;
+		y=19
+		rysuj_postac_stojaca $y;
 		min=11;
 		max=21;
 		stan=1;
@@ -314,11 +337,13 @@ do
 	if [ $controller -eq 2 ] && [ $stan -eq 1 ];
 	then
 		wyczysc_dol_planszy;
-		rysuj_postac_kucajaca;
+		y=21
+		rysuj_postac_kucajaca $y;
 		min=13;
 		max=21;
 		stan=2;
 	fi
+	
 	wynik=$[wynik+1]
 	tput setab 2; tput setaf 2; tput cup 25 84; read -rsn1 -d '' controller;
 done
