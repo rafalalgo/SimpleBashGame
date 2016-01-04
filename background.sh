@@ -363,6 +363,8 @@ jaka=1;
 
 while : 
 do
+	wypis_wyniku;
+	
 	read -rsn1 -d '' PRESS
 	
 	case "$PRESS" in
