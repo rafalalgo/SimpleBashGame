@@ -31,6 +31,8 @@ max=21;			#zakres zasiegu postac dolny liczac od dolu, uaktualniany wraz z stane
 szerokosc=14;	#zakres postaci w prawo
 controller=1;	#akcja pobrana od gracza
 wynik=0;		#aktualny wynik gracza
+y=21; 			#wspolrzedna y-kowa stop postaci
+jaka=2;			#typ postaci do zmazania
 
 #funkcje
 
@@ -130,25 +132,41 @@ rysuj_postac_stojaca() #funkcja rysujaca postac w trybie stojacym - $1=y wysokos
 	tput setab 7; tput setaf 7;				 	echo -n "   ";
 }
 
-wyczysc_dol_planszy() #czyszczenie postaci w poprzednim typie celem narysowania nowej
+wyczysc_postac_stojaca()
 {
-	for((i=$[M+1];i<=$W;i++))
+	for((i=$[$1-7];i<=$1;i++))
 	do
-		for((j=0;j<=14;j++))
+		for((j=6;j<=13;j++))
 		do
-			zmienna=$zmienna"^"
+			zmienna=$zmienna""${tablica[$[$i*K]+$j]}
 		done
-		tput setab 2; tput setaf 2; tput cup $i 0; echo $zmienna;
+		tput setab ${kolor_tla[$[$i*K]+6]}; tput setaf ${kolor_znaku[$[$i*K]+6]}; tput cup $i 0; echo $zmienna;
 		zmienna="";
 	done
+}
 
-	for((i=10;i<=$M;i++))
+wyczysc_postac_kucajaca()
+{
+	for((i=$1-7;i<=$1;i++))
 	do
-		for((j=0;j<=14;j++))
+		for((j=6;j<=13;j++))
 		do
-			zmienna=$zmienna"s"
+			zmienna=$zmienna""${tablica[$[$i*K]+$j]}
 		done
-		tput setab 4; tput setaf 4; tput cup $i 0; echo $zmienna;
+		tput setab ${kolor_tla[$[$i*K]+6]}; tput setaf ${kolor_znaku[$[$i*K]+6]}; tput cup $i 0; echo $zmienna;
+		zmienna="";
+	done
+}
+
+wyczysc_postac_skaczaca()
+{
+	for((i=$[$1-7];i<=$1;i++))
+	do
+		for((j=6;j<=13;j++))
+		do
+			zmienna=$zmienna""${tablica[$[$i*K]+$j]}
+		done
+		tput setab ${kolor_tla[$[$i*K]+6]}; tput setaf ${kolor_znaku[$[$i*K]+6]}; tput cup $i 0; echo $zmienna;
 		zmienna="";
 	done
 }
@@ -173,6 +191,29 @@ welcome()
 	tput setaf 4; echo -e "\n\n";
 	echo "              Nacisnij dowolny klawisz zeby rozpoczac rozgrywke.";
 	read zmienna;
+}
+
+wyczysc_dol_planszy() #czyszczenie postaci w poprzednim typie celem narysowania nowej
+{
+	for((i=$[M+1];i<=$W;i++))
+	do
+		for((j=0;j<=18;j++))
+		do
+			zmienna=$zmienna"^"
+		done
+		tput setab 2; tput setaf 2; tput cup $i 0; echo $zmienna;
+		zmienna="";
+	done
+
+	for((i=4;i<=$M;i++))
+	do
+		for((j=0;j<=18;j++))
+		do
+			zmienna=$zmienna"s"
+		done
+		tput setab 4; tput setaf 4; tput cup $i 0; echo $zmienna;
+		zmienna="";
+	done
 }
 
 rysowanie_planszy()
@@ -315,37 +356,53 @@ wypis_wyniku()
 
 #program glowny
 
-welcome
-rysowanie_planszy
-y=19; #wspolrzedna y-kowa stop postaci
-rysuj_postac_stojaca $y;
+welcome;
+rysowanie_planszy;
+rysuj_postac_kucajaca $y;
+jaka=1;
 
-while [ $controller -eq 1 ] || [ $controller -eq 2 ] ;
+while : 
 do
-	wypis_wyniku;
+	read -rsn1 -d '' PRESS
 	
-	if [ $controller -eq 1 ] && [ $stan -eq 2 ];
+	case "$PRESS" in
+		A) y=$[y-1] ;; # Up
+		B) y=$[y+1] ;; # Down
+		1) exit 1;
+	esac
+	
+	if [ $y -le 21 ] && [ $y -ge 19 ]
 	then
 		wyczysc_dol_planszy;
-		y=19
-		rysuj_postac_stojaca $y;
-		min=11;
-		max=21;
-		stan=1;
-	fi
-	
-	if [ $controller -eq 2 ] && [ $stan -eq 1 ];
-	then
-		wyczysc_dol_planszy;
-		y=21
 		rysuj_postac_kucajaca $y;
-		min=13;
-		max=21;
-		stan=2;
+		jaka=1;
+	fi
+	if [ $y -le 18 ] && [ $y -ge 14 ]
+	then
+		wyczysc_dol_planszy;
+		rysuj_postac_stojaca $y;
+		jaka=2;
+	fi
+	if [ $y -le 13 ] && [ $y -ge 10 ]
+	then
+		wyczysc_dol_planszy;
+		rysuj_postac_skaczaca $y;
+		jaka=3;
 	fi
 	
-	wynik=$[wynik+1]
-	tput setab 2; tput setaf 2; tput cup 25 84; read -rsn1 -d '' controller;
+	if [ $y -le 9 ]
+	then
+		y=$[y+1];
+		wyczysc_dol_planszy;
+		rysuj_postac_skaczaca $y;
+	fi
+	
+	if [ $y -ge 22 ]
+	then
+		y=$[y-1];
+		wyczysc_dol_planszy;
+		rysuj_postac_kucajaca $y;
+	fi
 done
 
 #kontrolny_wypis_tablicy_zgodny_z_kolorami;
