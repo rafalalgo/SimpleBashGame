@@ -43,27 +43,45 @@ wys_komina=6;	#wysokosc rysowanego kominu
 
 rysuj_komingorny()
 {
-	for((i=73;i<=77;i++))
+    for((j=1;j<=$1;j++))
 	do
-		for((j=1;j<=$1;j++))
-		do
-			komin[$[j*K+i]]="K";
-			kolor_zk[$[j*K+i]]=5;
-			kolor_tk[$[j*K+i]]=5;
-		done
+		komin[$[j*K+73]]="K";
+		kolor_zk[$[j*K+73]]=1;
+		kolor_tk[$[j*K+73]]=1;
+		komin[$[j*K+74]]="K";
+		kolor_zk[$[j*K+74]]=3;
+		kolor_tk[$[j*K+74]]=3;
+		komin[$[j*K+75]]="K";
+		kolor_zk[$[j*K+75]]=6;
+		kolor_tk[$[j*K+75]]=6;
+		komin[$[j*K+76]]="K";
+		kolor_zk[$[j*K+76]]=4;
+		kolor_tk[$[j*K+76]]=4;
+		komin[$[j*K+77]]="K";
+		kolor_zk[$[j*K+77]]=5;
+		kolor_tk[$[j*K+77]]=5;
 	done
 }
-
+ 
 rysuj_komindolny()
 {
-	for((i=73;i<=77;i++))
+    for((j=22;j>$[22-$1];j--))
 	do
-		for((j=22;j>$[22-$1];j--))
-		do
-			komin[$[j*K+i]]="K";
-			kolor_zk[$[j*K+i]]=5;
-			kolor_tk[$[j*K+i]]=5;
-		done
+		komin[$[j*K+73]]="K";
+		kolor_zk[$[j*K+73]]=1;
+		kolor_tk[$[j*K+73]]=1;
+		komin[$[j*K+74]]="K";
+		kolor_zk[$[j*K+74]]=3;
+		kolor_tk[$[j*K+74]]=3;
+		komin[$[j*K+75]]="K";
+		kolor_zk[$[j*K+75]]=6;
+		kolor_tk[$[j*K+75]]=6;
+		komin[$[j*K+76]]="K";
+		kolor_zk[$[j*K+76]]=4;
+		kolor_tk[$[j*K+76]]=4;
+		komin[$[j*K+77]]="K";
+		kolor_zk[$[j*K+77]]=5;
+		kolor_tk[$[j*K+77]]=5;                         
 	done
 }
  
@@ -244,24 +262,25 @@ welcome()
 }
 
 wyczysc_dol_planszy() #czyszczenie postaci w poprzednim typie celem narysowania nowej
-{
-	for((i=$[M+1];i<=$W;i++))
+{	
+	for((i=$min;i<=$max;i++))
 	do
 		for((j=0;j<=18;j++))
 		do
-			zmienna=$zmienna"^"
+			if [ $i -le $M ]
+			then
+				zmienna=$zmienna"s";
+			else
+				zmienna=$zmienna"^";
+			fi
 		done
-		tput setab 2; tput setaf 2; tput cup $i 0; echo $zmienna;
-		zmienna="";
-	done
-
-	for((i=4;i<=$M;i++))
-	do
-		for((j=0;j<=18;j++))
-		do
-			zmienna=$zmienna"s"
-		done
-		tput setab 4; tput setaf 4; tput cup $i 0; echo $zmienna;
+		
+		if [ $i -le $M ]
+		then
+			tput setab 4; tput setaf 4; tput cup $i 0; echo $zmienna;
+		else
+			tput setab 2; tput setaf 2; tput cup $i 0; echo $zmienna;
+		fi
 		zmienna="";
 	done
 }
@@ -450,21 +469,66 @@ uaktualnij()
 {
 	for((i=1;i<=$W;i++))
 	do
-		for((j=2;j<=$K;j++))
+		for((j=1;j<=$[K-5];j++))
 		do
 			if [ "${komin[$[i*K]+$j]}" == "K" ]
 			then
-				tput setab ${kolor_tla[$[i*K+j]]};
+				komin[$[i*K]+$[j+4]]="";
+				komin[$[i*K]+$[j-1]]="K";
+				l=$[j+4];
+				tput setab ${kolor_tla[$[$[i*K]+l]]};
+				tput setaf ${kolor_znaku[$[$[i*K]+l]]};
+				tput cup $i $l;
 				
+				if [ ${tablica[$[i*K+l]]} == "p" ]
+				then
+					echo -n " "
+				elif [ ${tablica[$[i*K+l]]} == "k" ]
+				then
+					echo -n "*"
+				else
+					echo -n ${tablica[$[i*K+l]]}
+				fi
 				
-			
-				tput setab ${kolor_tk[$[i*K+j]]};
-				tput setaf ${kolor_zk[$[i*K+j]]};
-				tput cup $i $j
-				echo -n " "
+				if [ $[j-1] -ne 0 ]
+				then
+					kolor_tk[$[$i*$K+$[j-1]]]=${kolor_tk[$[$i*$K+$l]]};
+					kolor_zk[$[$i*$K+$[j-1]]]=${kolor_zk[$[$i*$K+$l]]};
+					
+					tput setab ${kolor_tk[$[$i*$K+$[j-1]]]};
+					tput setaf ${kolor_zk[$[$i*$K+$[j-1]]]};
+					tput cup $i $[j-1]
+					echo -n " "
+					j=$[j+5];
+				fi
+				
+				if [ $[j-1] -eq 0 ]
+				then
+					for((i=22;i>$[22-wys_komina];i--))
+					do
+						for((j=1;j<=5;j++))
+						do
+							komin[$[i*K]+$j]="";
+							tput setab ${kolor_tla[$[$[i*K]+j]]};
+							tput setaf ${kolor_znaku[$[$[i*K]+j]]};
+							tput cup $i $j;
+							
+							if [ "${tablica[$[i*K+j]]}" == "p" ]
+							then
+								echo -n " "
+							elif [ "${tablica[$[i*K+j]]}" == "k" ]
+							then
+								echo -n "*"
+							else
+								echo -n ${tablica[$[i*K+j]]}
+							fi
+						done
+					done
+				fi
 			fi
 		done
 	done
+	
 }
 
 #program glowny
