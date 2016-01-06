@@ -10,6 +10,9 @@ clear
 #tablica		#tu trzymamy co jest na planszy
 #kolor_znaku	#tu trzymamy numer koloru znaku
 #kolor_tla		#tu trzymamy numer koloru tla
+#komin			#tu trzymamy K gdy na polu jest cos z komina
+#kolor_zk		#tu trzymamy kolor znaku na polu komina
+#kolor_tk		#tu trzymamy kolor tla na polu komina
 
 #odwolywanie tablica[$[i*K+j]] zwraca znak w i tym wierszu i j tej kolumnie
 
@@ -31,103 +34,207 @@ max=21;			#zakres zasiegu postac dolny liczac od dolu, uaktualniany wraz z stane
 szerokosc=14;	#zakres postaci w prawo
 controller=1;	#akcja pobrana od gracza
 wynik=0;		#aktualny wynik gracza
+y=21; 			#wspolrzedna y-kowa stop postaci
+jaka=2;			#typ postaci do zmazania
+gameover=0;		#1 gdy koniec gdy, bo gracz dotknal komin
+wys_komina=6;	#wysokosc rysowanego kominu
 
 #funkcje
 
-rysuj_postac_kucajaca() #funkcja rysujaca postac w trybie kucania
+rysuj_komingorny()
 {
-	# GŁOWA
-	
-	tput setab 7; tput setaf 7; tput cup 14 9;  echo "#";
-	tput setab 3; tput setaf 3;	tput cup 14 10; echo " ";
-	tput setab 7; tput setaf 7; tput cup 14 11; echo "#";
-	tput setab 3; tput setaf 3; tput cup 15 8;  echo " ";
-	tput setab 9; tput setaf 9; tput cup 15 9;  echo "*";
-	tput setab 3; tput setaf 3; tput cup 15 10; echo " ";
-	tput setab 9; tput setaf 9; tput cup 15 11; echo "*";
-	tput setab 3; tput setaf 3; tput cup 15 12; echo " ";
-	tput setab 3; tput setaf 3; tput cup 16 9;  echo "[-]";
-	tput setab 1; tput setaf 1; tput cup 17 9;  echo ">-<";
-	
-	#KLATKA PIERSIOWA
-	
-	tput setab 9; tput setaf 9; tput cup 18 7;  echo "   ";
-	tput setab 7; tput setaf 7; tput cup 18 10; echo " ";
-	tput setab 9; tput setaf 9; tput cup 18 11; echo "  "
-	tput setab 9; tput setaf 9; tput cup 19 6;  echo "   ";
-	tput setab 3; tput setaf 3; tput cup 19 9;  echo "=";
-	tput setab 7; tput setaf 7; tput cup 19 10; echo " ";
-	tput setab 9; tput setaf 9; tput cup 19 11; echo "   ";
-	tput setab 3; tput setaf 3; tput cup 19 14; echo "=";
-	tput setab 7; tput setaf 7; tput cup 20 7;  echo " ";
-	tput setab 9; tput setaf 9; tput cup 20 8;  echo "     ";
-	tput setab 7; tput setaf 7; tput cup 21 7;  echo " ";
-	tput setab 9; tput setaf 9; tput cup 21 8;  echo "  ";
-	tput setab 7; tput setaf 7; tput cup 21 11; echo "   ";
+    for((j=1;j<=$1;j++))
+	do
+		komin[$[j*K+73]]="K";
+		kolor_zk[$[j*K+73]]=1;
+		kolor_tk[$[j*K+73]]=1;
+		komin[$[j*K+74]]="K";
+		kolor_zk[$[j*K+74]]=3;
+		kolor_tk[$[j*K+74]]=3;
+		komin[$[j*K+75]]="K";
+		kolor_zk[$[j*K+75]]=6;
+		kolor_tk[$[j*K+75]]=6;
+		komin[$[j*K+76]]="K";
+		kolor_zk[$[j*K+76]]=4;
+		kolor_tk[$[j*K+76]]=4;
+		komin[$[j*K+77]]="K";
+		kolor_zk[$[j*K+77]]=5;
+		kolor_tk[$[j*K+77]]=5;
+	done
+}
+ 
+rysuj_komindolny()
+{
+    for((j=22;j>$[22-$1];j--))
+	do
+		komin[$[j*K+73]]="K";
+		kolor_zk[$[j*K+73]]=1;
+		kolor_tk[$[j*K+73]]=1;
+		komin[$[j*K+74]]="K";
+		kolor_zk[$[j*K+74]]=3;
+		kolor_tk[$[j*K+74]]=3;
+		komin[$[j*K+75]]="K";
+		kolor_zk[$[j*K+75]]=6;
+		kolor_tk[$[j*K+75]]=6;
+		komin[$[j*K+76]]="K";
+		kolor_zk[$[j*K+76]]=4;
+		kolor_tk[$[j*K+76]]=4;
+		komin[$[j*K+77]]="K";
+		kolor_zk[$[j*K+77]]=5;
+		kolor_tk[$[j*K+77]]=5;                         
+	done
+}
+ 
+wyswietl_komin()
+{
+	for((i=1;i<=$W;i++))
+	do
+		for((j=1;j<=$K;j++))
+		do
+			if [ "${komin[$[i*K]+$j]}" == "K" ]
+			then
+				tput setab ${kolor_tk[$[i*K+j]]};
+				tput setaf ${kolor_zk[$[i*K+j]]};
+				tput cup $i $j
+				echo -n " "
+			fi
+		done
+	done
 }
 
-rysuj_postac_stojaca() #funkcja rysujaca postac w trybie stojacym
+
+
+rysuj_postac_skaczaca() #funkcja rysujaca postac w trybie skoku - $1=y wysokosci na jakiej znajdują się stopy
 {
 	# GŁOWA
+	tput setab 7; tput setaf 7; tput cup $[$1-6] 9;  echo "#";
+	tput setab 3; tput setaf 3;	tput cup $[$1-6] 10; echo " ";
+	tput setab 7; tput setaf 7; tput cup $[$1-6] 11; echo "#";
+	tput setab 3; tput setaf 3; tput cup $[$1-5] 8;  echo " ";
+	tput setab 9; tput setaf 9; tput cup $[$1-5] 9;  echo "*";
+	tput setab 3; tput setaf 3; tput cup $[$1-5] 10; echo " ";
+	tput setab 9; tput setaf 9; tput cup $[$1-5] 11; echo "*";
+	tput setab 3; tput setaf 3; tput cup $[$1-5] 12; echo " ";
+	tput setab 3; tput setaf 3; tput cup $[$1-4] 9;  echo "[-]";
+	tput setab 1; tput setaf 1; tput cup $[$1-3] 9;  echo ">-<";
 	
-	tput setab 7; tput setaf 7; tput cup 11 9;  echo "#";
-	tput setab 3; tput setaf 3; tput cup 11 10; echo " ";
-	tput setab 7; tput setaf 7; tput cup 11 11; echo "#";
-	tput setab 3; tput setaf 3; tput cup 12 8;  echo " ";
-	tput setab 9; tput setaf 9; tput cup 12 9;  echo "*";
-	tput setab 3; tput setaf 3; tput cup 12 10; echo " ";
-	tput setab 9; tput setaf 9; tput cup 12 11; echo "*";
-	tput setab 3; tput setaf 3; tput cup 12 12; echo " ";
-	tput setab 3; tput setaf 3; tput cup 13 9;  echo "[-]";
-	tput setab 1; tput setaf 1; tput cup 14 9;  echo ">-<";
+	#KLATKA PIERSIOWA
+	tput setab 3; tput setaf 3; tput cup $[$1-2] 6;  echo "=";
+	tput setab 9; tput setaf 9; tput cup $[$1-2] 7;  echo "   ";
+	tput setab 7; tput setaf 7; tput cup $[$1-2] 10; echo " ";
+	tput setab 9; tput setaf 9; tput cup $[$1-2] 11; echo "   "
+	tput setab 3; tput setaf 3; tput cup $[$1-2] 14;  echo "=";
+	tput setab 9; tput setaf 9; tput cup $[$1-1] 8;  echo "  ";
+	tput setab 7; tput setaf 7; tput cup $[$1-1] 10; echo " ";
+	tput setab 9; tput setaf 9; tput cup $[$1-1] 11; echo "  ";
+	tput setab 7; tput setaf 7; tput cup $1 6;  echo " ";
+	tput setab 9; tput setaf 9; tput cup $1 7;  echo "       ";
+	tput setab 7; tput setaf 7; tput cup $1 14;  echo " ";
+}
+
+rysuj_postac_kucajaca() #funkcja rysujaca postac w trybie kucania - $1=y wysokosci na jakiej znajdują się stopy
+{
+	# GŁOWA
+	tput setab 7; tput setaf 7; tput cup $[$1-7] 9;  echo "#";
+	tput setab 3; tput setaf 3;	tput cup $[$1-7] 10; echo " ";
+	tput setab 7; tput setaf 7; tput cup $[$1-7] 11; echo "#";
+	tput setab 3; tput setaf 3; tput cup $[$1-6] 8;  echo " ";
+	tput setab 9; tput setaf 9; tput cup $[$1-6] 9;  echo "*";
+	tput setab 3; tput setaf 3; tput cup $[$1-6] 10; echo " ";
+	tput setab 9; tput setaf 9; tput cup $[$1-6] 11; echo "*";
+	tput setab 3; tput setaf 3; tput cup $[$1-6] 12; echo " ";
+	tput setab 3; tput setaf 3; tput cup $[$1-5] 9;  echo "[-]";
+	tput setab 1; tput setaf 1; tput cup $[$1-4] 9;  echo ">-<";
 	
 	#KLATKA PIERSIOWA
 	
-	tput setab 9; tput setaf 9; tput cup 15 7;  echo "   ";
-	tput setab 7; tput setaf 7; tput cup 15 10; echo " ";
-	tput setab 9; tput setaf 9; tput cup 15 11; echo "   ";
-	tput setab 9; tput setaf 9; tput cup 16 6;  echo "    ";
-	tput setab 7; tput setaf 7; tput cup 16 10; echo " ";
-	tput setab 9; tput setaf 9; tput cup 16 11; echo "    ";
-	tput setab 9; tput setaf 9; tput cup 17 6;  echo "    ";
-	tput setab 7; tput setaf 7; tput cup 17 10; echo " ";
-	tput setab 9; tput setaf 9; tput cup 17 11; echo "    ";
-	tput setab 3; tput setaf 3; tput cup 18 6;  echo "||";
-	tput setab 9; tput setaf 9; tput cup 18 8;  echo "     ";
-	tput setab 3; tput setaf 3; tput cup 18 13; echo "||";
+	tput setab 9; tput setaf 9; tput cup $[$1-3] 7;  echo "   ";
+	tput setab 7; tput setaf 7; tput cup $[$1-3] 10; echo " ";
+	tput setab 9; tput setaf 9; tput cup $[$1-3] 11; echo "  "
+	tput setab 9; tput setaf 9; tput cup $[$1-2] 6;  echo "   ";
+	tput setab 3; tput setaf 3; tput cup $[$1-2] 9;  echo "=";
+	tput setab 7; tput setaf 7; tput cup $[$1-2] 10; echo " ";
+	tput setab 9; tput setaf 9; tput cup $[$1-2] 11; echo "   ";
+	tput setab 3; tput setaf 3; tput cup $[$1-2] 14; echo "=";
+	tput setab 7; tput setaf 7; tput cup $[$1-1] 7;  echo " ";
+	tput setab 9; tput setaf 9; tput cup $[$1-1] 8;  echo "     ";
+	tput setab 7; tput setaf 7; tput cup $1 7;  echo " ";
+	tput setab 9; tput setaf 9; tput cup $1 8;  echo "  ";
+	tput setab 7; tput setaf 7; tput cup $1 11; echo "   ";
+}
+
+rysuj_postac_stojaca() #funkcja rysujaca postac w trybie stojacym - $1=y wysokosci na jakiej znajdują się stopy
+{
+	# GŁOWA
+	
+	tput setab 7; tput setaf 7; tput cup $[$1-8] 9;  echo "#";
+	tput setab 3; tput setaf 3; tput cup $[$1-8] 10; echo " ";
+	tput setab 7; tput setaf 7; tput cup $[$1-8] 11; echo "#";
+	tput setab 3; tput setaf 3; tput cup $[$1-7] 8;  echo " ";
+	tput setab 9; tput setaf 9; tput cup $[$1-7] 9;  echo "*";
+	tput setab 3; tput setaf 3; tput cup $[$1-7] 10; echo " ";
+	tput setab 9; tput setaf 9; tput cup $[$1-7] 11; echo "*";
+	tput setab 3; tput setaf 3; tput cup $[$1-7] 12; echo " ";
+	tput setab 3; tput setaf 3; tput cup $[$1-6] 9;  echo "[-]";
+	tput setab 1; tput setaf 1; tput cup $[$1-5] 9;  echo ">-<";
+	
+	#KLATKA PIERSIOWA
+	
+	tput setab 9; tput setaf 9; tput cup $[$1-4] 7;  echo "   ";
+	tput setab 7; tput setaf 7; tput cup $[$1-4] 10; echo " ";
+	tput setab 9; tput setaf 9; tput cup $[$1-4] 11; echo "   ";
+	tput setab 9; tput setaf 9; tput cup $[$1-3] 6;  echo "    ";
+	tput setab 7; tput setaf 7; tput cup $[$1-3] 10; echo " ";
+	tput setab 9; tput setaf 9; tput cup $[$1-3] 11; echo "    ";
+	tput setab 3; tput setaf 3; tput cup $[$1-2] 6;  echo "||";
+	tput setab 9; tput setaf 9; tput cup $[$1-2] 8;  echo "     ";
+	tput setab 3; tput setaf 3; tput cup $[$1-2] 13; echo "||";
 	
 	#SPODNIE
 	
-	tput setab 9; tput setaf 9; tput cup 19 8;  echo -n "  ";
+	tput setab 9; tput setaf 9; tput cup $[$1-1] 8;  echo -n "  ";
 	tput setab 2; tput setaf 2;                 echo -n "^";
 	tput setab 9; tput setaf 9;				    echo -n "  "; 
-	tput setab 9; tput setaf 9; tput cup 20 8;  echo -n "  ";
-	tput setab 2; tput setaf 2;				    echo -n "^";
-	tput setab 9; tput setaf 9;				    echo -n "  "; 
-	tput setab 7; tput setaf 7; tput cup 21 7;  echo -n "   ";
+	tput setab 7; tput setaf 7; tput cup $1 7;  echo -n "   ";
 	tput setab 2; tput setaf 2;				 	echo -n "^";
 	tput setab 7; tput setaf 7;				 	echo -n "   ";
 }
 
-wyczysc_dol_planszy() #czyszczenie postaci w poprzednim typie celem narysowania nowej
+wyczysc_postac_stojaca()
 {
-	for((i=$[M+1];i<=$W;i++))
+	for((i=$[$1-7];i<=$1;i++))
 	do
-		for((j=0;j<=14;j++))
+		for((j=6;j<=13;j++))
 		do
-			zmienna=$zmienna"^"
+			zmienna=$zmienna""${tablica[$[$i*K]+$j]}
 		done
-		tput setab 2; tput setaf 2; tput cup $i 0; echo $zmienna;
+		tput setab ${kolor_tla[$[$i*K]+6]}; tput setaf ${kolor_znaku[$[$i*K]+6]}; tput cup $i 0; echo $zmienna;
 		zmienna="";
 	done
+}
 
-	for((i=10;i<=$M;i++))
+wyczysc_postac_kucajaca()
+{
+	for((i=$1-7;i<=$1;i++))
 	do
-		for((j=0;j<=14;j++))
+		for((j=6;j<=13;j++))
 		do
-			zmienna=$zmienna"s"
+			zmienna=$zmienna""${tablica[$[$i*K]+$j]}
 		done
-		tput setab 4; tput setaf 4; tput cup $i 0; echo $zmienna;
+		tput setab ${kolor_tla[$[$i*K]+6]}; tput setaf ${kolor_znaku[$[$i*K]+6]}; tput cup $i 0; echo $zmienna;
+		zmienna="";
+	done
+}
+
+wyczysc_postac_skaczaca()
+{
+	for((i=$[$1-7];i<=$1;i++))
+	do
+		for((j=6;j<=13;j++))
+		do
+			zmienna=$zmienna""${tablica[$[$i*K]+$j]}
+		done
+		tput setab ${kolor_tla[$[$i*K]+6]}; tput setaf ${kolor_znaku[$[$i*K]+6]}; tput cup $i 0; echo $zmienna;
 		zmienna="";
 	done
 }
@@ -152,6 +259,30 @@ welcome()
 	tput setaf 4; echo -e "\n\n";
 	echo "              Nacisnij dowolny klawisz zeby rozpoczac rozgrywke.";
 	read zmienna;
+}
+
+wyczysc_dol_planszy() #czyszczenie postaci w poprzednim typie celem narysowania nowej
+{	
+	for((i=$min;i<=$max;i++))
+	do
+		for((j=0;j<=18;j++))
+		do
+			if [ $i -le $M ]
+			then
+				zmienna=$zmienna"s";
+			else
+				zmienna=$zmienna"^";
+			fi
+		done
+		
+		if [ $i -le $M ]
+		then
+			tput setab 4; tput setaf 4; tput cup $i 0; echo $zmienna;
+		else
+			tput setab 2; tput setaf 2; tput cup $i 0; echo $zmienna;
+		fi
+		zmienna="";
+	done
 }
 
 rysowanie_planszy()
@@ -292,35 +423,193 @@ wypis_wyniku()
 	tput cup 1 $[57 - ${#wynik}]; tput setab 1; tput setaf 7; echo -n "Twoj aktualny wynik to "$wynik
 }
 
+sprawdz_czy_punkt()
+{
+	tak=0;
+	
+	for((i=1;i<=$[min-1];i++))
+	do
+		if [ "${komin[$[i*K+15]]}" == "K" ]
+		then
+			tak=1;
+		fi
+	done
+	
+	for((i=$[max+1];i<=22;i++))
+	do
+		if [ "${komin[$[i*K+15]]}" == "K" ]
+		then
+			tak=1;
+		fi
+	done
+}
+
+sprawdz_czy_zabity()
+{
+	for((i=$min;i<=$max;i++))
+	do
+		if [ "${komin[$[i*K+15]]}" == "K" ]
+		then
+			gameover=1;
+		fi
+	done
+}
+
+gameover()
+{
+	clear;
+	tput setab 2;
+	tput setaf 2;
+	clear;
+	echo "KURWA PRZEGRALES PAJACU"
+	exit;
+}
+
+uaktualnij()
+{
+	for((i=1;i<=$W;i++))
+	do
+		for((j=1;j<=$[K-5];j++))
+		do
+			if [ "${komin[$[i*K]+$j]}" == "K" ]
+			then
+				komin[$[i*K]+$[j+4]]="";
+				komin[$[i*K]+$[j-1]]="K";
+				l=$[j+4];
+				tput setab ${kolor_tla[$[$[i*K]+l]]};
+				tput setaf ${kolor_znaku[$[$[i*K]+l]]};
+				tput cup $i $l;
+				
+				if [ ${tablica[$[i*K+l]]} == "p" ]
+				then
+					echo -n " "
+				elif [ ${tablica[$[i*K+l]]} == "k" ]
+				then
+					echo -n "*"
+				else
+					echo -n ${tablica[$[i*K+l]]}
+				fi
+				
+				if [ $[j-1] -ne 0 ]
+				then
+					kolor_tk[$[$i*$K+$[j-1]]]=${kolor_tk[$[$i*$K+$l]]};
+					kolor_zk[$[$i*$K+$[j-1]]]=${kolor_zk[$[$i*$K+$l]]};
+					
+					tput setab ${kolor_tk[$[$i*$K+$[j-1]]]};
+					tput setaf ${kolor_zk[$[$i*$K+$[j-1]]]};
+					tput cup $i $[j-1]
+					echo -n " "
+					j=$[j+5];
+				fi
+				
+				if [ $[j-1] -eq 0 ]
+				then
+					for((i=22;i>$[22-wys_komina];i--))
+					do
+						for((j=1;j<=5;j++))
+						do
+							komin[$[i*K]+$j]="";
+							tput setab ${kolor_tla[$[$[i*K]+j]]};
+							tput setaf ${kolor_znaku[$[$[i*K]+j]]};
+							tput cup $i $j;
+							
+							if [ "${tablica[$[i*K+j]]}" == "p" ]
+							then
+								echo -n " "
+							elif [ "${tablica[$[i*K+j]]}" == "k" ]
+							then
+								echo -n "*"
+							else
+								echo -n ${tablica[$[i*K+j]]}
+							fi
+						done
+					done
+				fi
+			fi
+		done
+	done
+	
+}
+
 #program glowny
 
-welcome
-rysowanie_planszy
-rysuj_postac_stojaca
+welcome;
+rysowanie_planszy;
+rysuj_postac_kucajaca $y;
+jaka=1;
+min=14;
+max=21;
 
-while [ $controller -eq 1 ] || [ $controller -eq 2 ] ;
+wys_komina=9;
+rysuj_komindolny $wys_komina;
+wyswietl_komin;
+
+while : 
 do
+	sprawdz_czy_zabity;
+	
+	if [ $gameover -eq 1 ]
+	then
+		gameover;
+	fi
+	
+	sprawdz_czy_punkt;
+	
+	if [ $tak -eq 1 ]
+	then
+		wynik=$[wynik+1];
+	fi
+	
 	wypis_wyniku;
 	
-	if [ $controller -eq 1 ] && [ $stan -eq 2 ];
+	read -rsn1 -d '' PRESS
+	
+	case "$PRESS" in
+		A) y=$[y-1] ;; # Up
+		B) y=$[y+1] ;; # Down
+		1) exit 1;
+	esac
+	
+	if [ $y -le 21 ] && [ $y -ge 19 ]
 	then
 		wyczysc_dol_planszy;
-		rysuj_postac_stojaca;
-		min=11;
-		max=21;
-		stan=1;
+		rysuj_postac_kucajaca $y;
+		max=$y;
+		min=$[y-7];
+		jaka=1;
+	fi
+	if [ $y -le 18 ] && [ $y -ge 14 ]
+	then
+		wyczysc_dol_planszy;
+		rysuj_postac_stojaca $y;
+		max=$y;
+		min=$[y-8];
+		jaka=2;
+	fi
+	if [ $y -le 13 ] && [ $y -ge 10 ]
+	then
+		wyczysc_dol_planszy;
+		rysuj_postac_skaczaca $y;
+		max=$y;
+		min=$[y-6];
+		jaka=3;
 	fi
 	
-	if [ $controller -eq 2 ] && [ $stan -eq 1 ];
+	if [ $y -le 9 ]
 	then
+		y=$[y+1];
 		wyczysc_dol_planszy;
-		rysuj_postac_kucajaca;
-		min=13;
-		max=21;
-		stan=2;
+		rysuj_postac_skaczaca $y;
 	fi
-	wynik=$[wynik+1]
-	tput setab 2; tput setaf 2; tput cup 25 84; read -rsn1 -d '' controller;
+	
+	if [ $y -ge 22 ]
+	then
+		y=$[y-1];
+		wyczysc_dol_planszy;
+		rysuj_postac_kucajaca $y;
+	fi
+	
+	uaktualnij;
 done
 
 #kontrolny_wypis_tablicy_zgodny_z_kolorami;
