@@ -10,6 +10,9 @@ clear
 #tablica		#tu trzymamy co jest na planszy
 #kolor_znaku	#tu trzymamy numer koloru znaku
 #kolor_tla		#tu trzymamy numer koloru tla
+#komin			#tu trzymamy K gdy na polu jest cos z komina
+#kolor_zk		#tu trzymamy kolor znaku na polu komina
+#kolor_tk		#tu trzymamy kolor tla na polu komina
 
 #odwolywanie tablica[$[i*K+j]] zwraca znak w i tym wierszu i j tej kolumnie
 
@@ -33,8 +36,55 @@ controller=1;	#akcja pobrana od gracza
 wynik=0;		#aktualny wynik gracza
 y=21; 			#wspolrzedna y-kowa stop postaci
 jaka=2;			#typ postaci do zmazania
+gameover=0;		#1 gdy koniec gdy, bo gracz dotknal komin
+wys_komina=6;	#wysokosc rysowanego kominu
 
 #funkcje
+
+rysuj_komingorny()
+{
+	for((i=73;i<=77;i++))
+	do
+		for((j=1;j<=$1;j++))
+		do
+			komin[$[j*K+i]]="K";
+			kolor_zk[$[j*K+i]]=5;
+			kolor_tk[$[j*K+i]]=5;
+		done
+	done
+}
+
+rysuj_komindolny()
+{
+	for((i=73;i<=77;i++))
+	do
+		for((j=22;j>$[22-$1];j--))
+		do
+			komin[$[j*K+i]]="K";
+			kolor_zk[$[j*K+i]]=5;
+			kolor_tk[$[j*K+i]]=5;
+		done
+	done
+}
+ 
+wyswietl_komin()
+{
+	for((i=1;i<=$W;i++))
+	do
+		for((j=1;j<=$K;j++))
+		do
+			if [ "${komin[$[i*K]+$j]}" == "K" ]
+			then
+				tput setab ${kolor_tk[$[i*K+j]]};
+				tput setaf ${kolor_zk[$[i*K+j]]};
+				tput cup $i $j
+				echo -n " "
+			fi
+		done
+	done
+}
+
+
 
 rysuj_postac_skaczaca() #funkcja rysujaca postac w trybie skoku - $1=y wysokosci na jakiej znajdują się stopy
 {
@@ -354,15 +404,98 @@ wypis_wyniku()
 	tput cup 1 $[57 - ${#wynik}]; tput setab 1; tput setaf 7; echo -n "Twoj aktualny wynik to "$wynik
 }
 
+sprawdz_czy_punkt()
+{
+	tak=0;
+	
+	for((i=1;i<=$[min-1];i++))
+	do
+		if [ "${komin[$[i*K+15]]}" == "K" ]
+		then
+			tak=1;
+		fi
+	done
+	
+	for((i=$[max+1];i<=22;i++))
+	do
+		if [ "${komin[$[i*K+15]]}" == "K" ]
+		then
+			tak=1;
+		fi
+	done
+}
+
+sprawdz_czy_zabity()
+{
+	for((i=$min;i<=$max;i++))
+	do
+		if [ "${komin[$[i*K+15]]}" == "K" ]
+		then
+			gameover=1;
+		fi
+	done
+}
+
+gameover()
+{
+	clear;
+	tput setab 2;
+	tput setaf 2;
+	clear;
+	echo "KURWA PRZEGRALES PAJACU"
+	exit;
+}
+
+uaktualnij()
+{
+	for((i=1;i<=$W;i++))
+	do
+		for((j=2;j<=$K;j++))
+		do
+			if [ "${komin[$[i*K]+$j]}" == "K" ]
+			then
+				tput setab ${kolor_tla[$[i*K+j]]};
+				
+				
+			
+				tput setab ${kolor_tk[$[i*K+j]]};
+				tput setaf ${kolor_zk[$[i*K+j]]};
+				tput cup $i $j
+				echo -n " "
+			fi
+		done
+	done
+}
+
 #program glowny
 
 welcome;
 rysowanie_planszy;
 rysuj_postac_kucajaca $y;
 jaka=1;
+min=14;
+max=21;
+
+wys_komina=9;
+rysuj_komindolny $wys_komina;
+wyswietl_komin;
 
 while : 
 do
+	sprawdz_czy_zabity;
+	
+	if [ $gameover -eq 1 ]
+	then
+		gameover;
+	fi
+	
+	sprawdz_czy_punkt;
+	
+	if [ $tak -eq 1 ]
+	then
+		wynik=$[wynik+1];
+	fi
+	
 	wypis_wyniku;
 	
 	read -rsn1 -d '' PRESS
@@ -377,18 +510,24 @@ do
 	then
 		wyczysc_dol_planszy;
 		rysuj_postac_kucajaca $y;
+		max=$y;
+		min=$[y-7];
 		jaka=1;
 	fi
 	if [ $y -le 18 ] && [ $y -ge 14 ]
 	then
 		wyczysc_dol_planszy;
 		rysuj_postac_stojaca $y;
+		max=$y;
+		min=$[y-8];
 		jaka=2;
 	fi
 	if [ $y -le 13 ] && [ $y -ge 10 ]
 	then
 		wyczysc_dol_planszy;
 		rysuj_postac_skaczaca $y;
+		max=$y;
+		min=$[y-6];
 		jaka=3;
 	fi
 	
@@ -405,6 +544,8 @@ do
 		wyczysc_dol_planszy;
 		rysuj_postac_kucajaca $y;
 	fi
+	
+	uaktualnij;
 done
 
 #kontrolny_wypis_tablicy_zgodny_z_kolorami;
