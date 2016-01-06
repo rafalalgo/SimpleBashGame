@@ -39,14 +39,14 @@ y=21; 			#wspolrzedna y-kowa stop postaci
 jaka=2;			#typ postaci do zmazania
 gameover=0;		#1 gdy koniec gdy, bo gracz dotknal komin
 wys_komina=6;	#wysokosc rysowanego kominu
-H=23;
-CO_ILE=23;
+H=20;
+CO_ILE=20;
 
 #funkcje
 
 rysuj_komingorny()
 {
-    for((p=2;p<=$1;p++))
+    for((p=1;p<=$1;p++))
 	do
 		komin[$[p*K+75]]="K";
 		kolor_zk[$[p*K+75]]=1;
@@ -259,7 +259,10 @@ welcome()
 	tput setaf 4; echo "      			   JKM SPECIAL EDITION";
 	tput setaf 4; echo -e "\n\n";
 	echo "              Nacisnij dowolny klawisz zeby rozpoczac rozgrywke.";
-	read zmienna;
+	echo -e "\n";
+	echo "                     Obsługa postaci klawiszami [w] i [s]";
+	echo -e "\n"
+	read -n1 zmienna;
 }
 
 wyczysc_dol_planszy() #czyszczenie postaci w poprzednim typie celem narysowania nowej
@@ -382,17 +385,17 @@ rysowanie_planszy()
 	do
 		for((j=$[4-i+1];j<$[4+i-1];j++))
 		do
-			tput setab 3; tput setaf 3; tput cup $[i - 1] $[j+1]; echo -n "o"; tablica[$[$[i-1]*K+$[j+1]]]="o";
-			kolor_tla[$[$[i-1]*K+$[j+1]]]=3;
-			kolor_znaku[$[$[i-1]*K+$[j+1]]]=3;
+			tput setab 3; tput setaf 3; tput cup $[i-2] $[j+1]; echo -n "o"; tablica[$[$[i-2]*K+$[j+1]]]="o";
+			kolor_tla[$[$[i-2]*K+$[j+1]]]=3;
+			kolor_znaku[$[$[i-2]*K+$[j+1]]]=3;
 		done
 	done
 
 	for((j=$[4-3+1];j<$[4+3-1];j++))
 	do
-		tput setab 3; tput setaf 3; tput cup 4 $[j+1]; echo -n "o"; tablica[$[3*K+$[j+1]]]="o";
-		kolor_tla[$[4*K+$[j+1]]]=3;
-		kolor_znaku[$[4*K+$[j+1]]]=3;
+		tput setab 3; tput setaf 3; tput cup 3 $[j+1]; echo -n "o"; tablica[$[3*K+$[j+1]]]="o";
+		kolor_tla[$[3*K+$[j+1]]]=3;
+		kolor_znaku[$[3*K+$[j+1]]]=3;
 	done
 }
 
@@ -428,10 +431,10 @@ wypis_wyniku()
 {
 	for((L=0;L<$[57 - ${#wynik}];L++))
 	do
-		tput setab 1; tput setaf 7; tput cup 1 $L; echo -n " ";
+		tput setab 1; tput setaf 7; tput cup 0 $L; echo -n " ";
 	done
 	
-	tput cup 1 $[57 - ${#wynik}]; tput setab 1; tput setaf 7; echo -n "Twoj aktualny wynik to "$wynik; tput cup 22 82;
+	tput cup 0 $[57 - ${#wynik}]; tput setab 1; tput setaf 7; echo -n "Twoj aktualny wynik to "$wynik; tput cup 22 82;
 }
 
 sprawdz_czy_punkt()
@@ -495,9 +498,9 @@ uaktualnij()
 					
 					if [ $X -eq 0 ]
 					then
-						rysuj_komindolny 9;
+						rysuj_komindolny $[RANDOM%3+7];
 					else
-						rysuj_komingorny 9;
+						rysuj_komingorny $[RANDOM%4+9];
 					fi
 					wyswietl_komin;
 				fi
@@ -533,7 +536,7 @@ uaktualnij()
 				
 				if [ $[j-1] -eq 0 ]
 				then
-					for((e=22;e>$[22-wys_komina];e--))
+					for((e=22;e>10;e--))
 					do
 						for((z=1;z<=5;z++))
 						do
@@ -554,7 +557,7 @@ uaktualnij()
 						done
 					done
 					
-					for((e=1;e<=10;e++))
+					for((e=1;e<=14;e++))
 					do
 						for((z=1;z<=5;z++))
 						do
