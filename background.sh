@@ -22,6 +22,7 @@ clear
 # 	 p - pnie drzew
 #	 k - korona drzew
 #	 o - sloneczko
+#	 R - rurkowiec
 
 #######################################################################################
 
@@ -179,7 +180,7 @@ rysuj_postac_stojaca() #funkcja rysujaca postac w trybie stojacym - $1=y wysokos
 	tput setab 1; tput setaf 1; tput cup $[$1-5] 9;  echo ">-<";
 	
 	#KLATKA PIERSIOWA
-	
+
 	tput setab 9; tput setaf 9; tput cup $[$1-4] 7;  echo "   ";
 	tput setab 7; tput setaf 7; tput cup $[$1-4] 10; echo " ";
 	tput setab 9; tput setaf 9; tput cup $[$1-4] 11; echo "   ";
@@ -416,6 +417,11 @@ kontrolny_wypis_tablicy_zgodny_z_kolorami()
 		done
 		echo ""
 	done
+}
+
+wypis_koncowego_wyniku()
+{
+	tput cup 1 $[58 - ${#wynik}]; tput setab 1; tput setaf 7; echo -n "Twoj koncowy wynik to "$wynik
 }
 
 wypis_wyniku()
