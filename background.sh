@@ -38,28 +38,30 @@ y=21; 			#wspolrzedna y-kowa stop postaci
 jaka=2;			#typ postaci do zmazania
 gameover=0;		#1 gdy koniec gdy, bo gracz dotknal komin
 wys_komina=6;	#wysokosc rysowanego kominu
+H=23;
+CO_ILE=23;
 
 #funkcje
 
 rysuj_komingorny()
 {
-    for((p=1;p<=$1;p++))
+    for((p=2;p<=$1;p++))
 	do
-		komin[$[p*K+73]]="K";
-		kolor_zk[$[p*K+73]]=1;
-		kolor_tk[$[p*K+73]]=1;
-		komin[$[p*K+74]]="K";
-		kolor_zk[$[p*K+74]]=3;
-		kolor_tk[$[p*K+74]]=3;
 		komin[$[p*K+75]]="K";
-		kolor_zk[$[p*K+75]]=6;
-		kolor_tk[$[p*K+75]]=6;
+		kolor_zk[$[p*K+75]]=1;
+		kolor_tk[$[p*K+75]]=1;
 		komin[$[p*K+76]]="K";
-		kolor_zk[$[p*K+76]]=4;
-		kolor_tk[$[p*K+76]]=4;
+		kolor_zk[$[p*K+76]]=3;
+		kolor_tk[$[p*K+76]]=3;
 		komin[$[p*K+77]]="K";
-		kolor_zk[$[p*K+77]]=5;
-		kolor_tk[$[p*K+77]]=5;
+		kolor_zk[$[p*K+77]]=6;
+		kolor_tk[$[p*K+77]]=6;
+		komin[$[p*K+78]]="K";
+		kolor_zk[$[p*K+78]]=4;
+		kolor_tk[$[p*K+78]]=4;
+		komin[$[p*K+79]]="K";
+		kolor_zk[$[p*K+79]]=5;
+		kolor_tk[$[p*K+79]]=5;
 	done
 }
  
@@ -67,21 +69,21 @@ rysuj_komindolny()
 {
     for((p=22;p>$[22-$1];p--))
 	do
-		komin[$[p*K+73]]="K";
-		kolor_zk[$[p*K+73]]=1;
-		kolor_tk[$[p*K+73]]=1;
-		komin[$[p*K+74]]="K";
-		kolor_zk[$[p*K+74]]=3;
-		kolor_tk[$[p*K+74]]=3;
 		komin[$[p*K+75]]="K";
-		kolor_zk[$[p*K+75]]=6;
-		kolor_tk[$[p*K+75]]=6;
+		kolor_zk[$[p*K+75]]=1;
+		kolor_tk[$[p*K+75]]=1;
 		komin[$[p*K+76]]="K";
-		kolor_zk[$[p*K+76]]=4;
-		kolor_tk[$[p*K+76]]=4;
+		kolor_zk[$[p*K+76]]=3;
+		kolor_tk[$[p*K+76]]=3;
 		komin[$[p*K+77]]="K";
-		kolor_zk[$[p*K+77]]=5;
-		kolor_tk[$[p*K+77]]=5;                         
+		kolor_zk[$[p*K+77]]=6;
+		kolor_tk[$[p*K+77]]=6;
+		komin[$[p*K+78]]="K";
+		kolor_zk[$[p*K+78]]=4;
+		kolor_tk[$[p*K+78]]=4;
+		komin[$[p*K+79]]="K";
+		kolor_zk[$[p*K+79]]=5;
+		kolor_tk[$[p*K+79]]=5;                         
 	done
 }
  
@@ -89,7 +91,7 @@ wyswietl_komin()
 {
 	for((ss=1;ss<=$W;ss++))
 	do
-		for((p=73;p<=$K;p++))
+		for((p=75;p<$K;p++))
 		do
 			if [ "${komin[$[ss*K]+$p]}" == "K" ]
 			then
@@ -101,8 +103,6 @@ wyswietl_komin()
 		done
 	done
 }
-
-
 
 rysuj_postac_skaczaca() #funkcja rysujaca postac w trybie skoku - $1=y wysokosci na jakiej znajdują się stopy
 {
@@ -381,17 +381,17 @@ rysowanie_planszy()
 	do
 		for((j=$[4-i+1];j<$[4+i-1];j++))
 		do
-			tput setab 3; tput setaf 3; tput cup $[i - 2] $[j+1]; echo -n "o"; tablica[$[$[i-2]*K+$[j+1]]]="o";
-			kolor_tla[$[$[i-2]*K+$[j+1]]]=3;
-			kolor_znaku[$[$[i-2]*K+$[j+1]]]=3;
+			tput setab 3; tput setaf 3; tput cup $[i - 1] $[j+1]; echo -n "o"; tablica[$[$[i-1]*K+$[j+1]]]="o";
+			kolor_tla[$[$[i-1]*K+$[j+1]]]=3;
+			kolor_znaku[$[$[i-1]*K+$[j+1]]]=3;
 		done
 	done
 
 	for((j=$[4-3+1];j<$[4+3-1];j++))
 	do
-		tput setab 3; tput setaf 3; tput cup 3 $[j+1]; echo -n "o"; tablica[$[3*K+$[j+1]]]="o";
-		kolor_tla[$[3*K+$[j+1]]]=3;
-		kolor_znaku[$[3*K+$[j+1]]]=3;
+		tput setab 3; tput setaf 3; tput cup 4 $[j+1]; echo -n "o"; tablica[$[3*K+$[j+1]]]="o";
+		kolor_tla[$[4*K+$[j+1]]]=3;
+		kolor_znaku[$[4*K+$[j+1]]]=3;
 	done
 }
 
@@ -420,6 +420,11 @@ kontrolny_wypis_tablicy_zgodny_z_kolorami()
 
 wypis_wyniku()
 {
+	for((L=0;L<$[57 - ${#wynik}];L++))
+	do
+		tput setab 1; tput setaf 7; tput cup 1 $L; echo -n " ";
+	done
+	
 	tput cup 1 $[57 - ${#wynik}]; tput setab 1; tput setaf 7; echo -n "Twoj aktualny wynik to "$wynik; tput cup 22 82;
 }
 
@@ -477,9 +482,17 @@ uaktualnij()
 			then
 				tak=1;
 				
-				if [ $j -eq 60 ]
+				if [ $H -eq 0 ]
 				then
-					rysuj_komindolny 9;
+					H=$CO_ILE;
+					X=$[RANDOM%2];
+					
+					if [ $X -eq 0 ]
+					then
+						rysuj_komindolny 9;
+					else
+						rysuj_komingorny 9;
+					fi
 					wyswietl_komin;
 				fi
 				
@@ -534,6 +547,27 @@ uaktualnij()
 							fi
 						done
 					done
+					
+					for((e=1;e<=10;e++))
+					do
+						for((z=1;z<=5;z++))
+						do
+							komin[$[e*K]+$z]="";
+							tput setab ${kolor_tla[$[$[e*K]+z]]};
+							tput setaf ${kolor_znaku[$[$[e*K]+z]]};
+							tput cup $e $z;
+							
+							if [ "${tablica[$[e*K+z]]}" == "p" ]
+							then
+								echo -n " "
+							elif [ "${tablica[$[e*K+z]]}" == "k" ]
+							then
+								echo -n "*"
+							else
+								echo -n ${tablica[$[e*K+z]]}
+							fi
+						done
+					done
 				fi
 			fi
 		done
@@ -561,8 +595,7 @@ do
 		wypis_wyniku;
 		tput cup 22 82;
 		
-		read -t 0.05 -rsn1 -d '' PRESS
-		sleep 0.05;
+		read -t 0.01 -rsn1 -d '' PRESS
 		
 		last=$y;
 		
@@ -631,6 +664,7 @@ do
 			fi
 		fi
 		uaktualnij;
+		H=$[H-1];
 	fi
 done
 
