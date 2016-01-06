@@ -8,7 +8,7 @@ Minimalna Działająca Wersja:
 3. W grze będą pojawiać się przeszkody dwojakiego typu
    a) wysokie - aby je ominąć gracz będzie się musiał schylić.
    b) niskie - aby je ominąć gracz będzie musiał podskoczyć.
-Przeszkody będą się pojawiać od prawej strony ekranu w losowych miejscach na wysokości ciała postaci i będą zmierzać w jej kierunku. Naszym celem jest je omijać. Koniec gry, gdy  nie uda się ominąć przeszkody. Gracz ma trzy życia.
+Przeszkody będą się pojawiać od prawej strony ekranu w losowych miejscach na wysokości ciała postaci i będą zmierzać w jej kierunku. Naszym celem jest je omijać. Koniec gry, gdy  nie uda się ominąć przeszkody.
 
 Reszta Pomysłów Do Realizacji:
 1. W grze będą się pojawiać monety, które gracz będzie mógł zbierać i dostawać punkty, a także serca dodające życie. Gracz ma wstępnie załadowany pakiet trzech żyć, liczby trzech żyć nie może także przekroczyć zbierając serca.
