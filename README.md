@@ -28,3 +28,5 @@ Podział zadań nie jest jeszcze znany, będzie ustalany na bieżąco, póki co:
 12. Rafał Byczek - testowanie i debugowanie błędów.
 13. Rafał Byczek - strona startowa gry.
 14. Dawid Rączka - strona końcowa gry.
+
+*Zadania 7 i 8 kodowane przez Dawida, lecz zacommitowane przez Rafała z uwagi na problemy z git'em na komputerze Dawida.
