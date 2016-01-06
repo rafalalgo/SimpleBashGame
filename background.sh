@@ -38,71 +38,71 @@ y=21; 			#wspolrzedna y-kowa stop postaci
 jaka=2;			#typ postaci do zmazania
 gameover=0;		#1 gdy koniec gdy, bo gracz dotknal komin
 wys_komina=6;	#wysokosc rysowanego kominu
+H=23;
+CO_ILE=23;
 
 #funkcje
 
 rysuj_komingorny()
 {
-    for((j=1;j<=$1;j++))
+    for((p=2;p<=$1;p++))
 	do
-		komin[$[j*K+73]]="K";
-		kolor_zk[$[j*K+73]]=1;
-		kolor_tk[$[j*K+73]]=1;
-		komin[$[j*K+74]]="K";
-		kolor_zk[$[j*K+74]]=3;
-		kolor_tk[$[j*K+74]]=3;
-		komin[$[j*K+75]]="K";
-		kolor_zk[$[j*K+75]]=6;
-		kolor_tk[$[j*K+75]]=6;
-		komin[$[j*K+76]]="K";
-		kolor_zk[$[j*K+76]]=4;
-		kolor_tk[$[j*K+76]]=4;
-		komin[$[j*K+77]]="K";
-		kolor_zk[$[j*K+77]]=5;
-		kolor_tk[$[j*K+77]]=5;
+		komin[$[p*K+75]]="K";
+		kolor_zk[$[p*K+75]]=1;
+		kolor_tk[$[p*K+75]]=1;
+		komin[$[p*K+76]]="K";
+		kolor_zk[$[p*K+76]]=3;
+		kolor_tk[$[p*K+76]]=3;
+		komin[$[p*K+77]]="K";
+		kolor_zk[$[p*K+77]]=6;
+		kolor_tk[$[p*K+77]]=6;
+		komin[$[p*K+78]]="K";
+		kolor_zk[$[p*K+78]]=4;
+		kolor_tk[$[p*K+78]]=4;
+		komin[$[p*K+79]]="K";
+		kolor_zk[$[p*K+79]]=5;
+		kolor_tk[$[p*K+79]]=5;
 	done
 }
  
 rysuj_komindolny()
 {
-    for((j=22;j>$[22-$1];j--))
+    for((p=22;p>$[22-$1];p--))
 	do
-		komin[$[j*K+73]]="K";
-		kolor_zk[$[j*K+73]]=1;
-		kolor_tk[$[j*K+73]]=1;
-		komin[$[j*K+74]]="K";
-		kolor_zk[$[j*K+74]]=3;
-		kolor_tk[$[j*K+74]]=3;
-		komin[$[j*K+75]]="K";
-		kolor_zk[$[j*K+75]]=6;
-		kolor_tk[$[j*K+75]]=6;
-		komin[$[j*K+76]]="K";
-		kolor_zk[$[j*K+76]]=4;
-		kolor_tk[$[j*K+76]]=4;
-		komin[$[j*K+77]]="K";
-		kolor_zk[$[j*K+77]]=5;
-		kolor_tk[$[j*K+77]]=5;                         
+		komin[$[p*K+75]]="K";
+		kolor_zk[$[p*K+75]]=1;
+		kolor_tk[$[p*K+75]]=1;
+		komin[$[p*K+76]]="K";
+		kolor_zk[$[p*K+76]]=3;
+		kolor_tk[$[p*K+76]]=3;
+		komin[$[p*K+77]]="K";
+		kolor_zk[$[p*K+77]]=6;
+		kolor_tk[$[p*K+77]]=6;
+		komin[$[p*K+78]]="K";
+		kolor_zk[$[p*K+78]]=4;
+		kolor_tk[$[p*K+78]]=4;
+		komin[$[p*K+79]]="K";
+		kolor_zk[$[p*K+79]]=5;
+		kolor_tk[$[p*K+79]]=5;                         
 	done
 }
  
 wyswietl_komin()
 {
-	for((i=1;i<=$W;i++))
+	for((ss=1;ss<=$W;ss++))
 	do
-		for((j=1;j<=$K;j++))
+		for((p=75;p<$K;p++))
 		do
-			if [ "${komin[$[i*K]+$j]}" == "K" ]
+			if [ "${komin[$[ss*K]+$p]}" == "K" ]
 			then
-				tput setab ${kolor_tk[$[i*K+j]]};
-				tput setaf ${kolor_zk[$[i*K+j]]};
-				tput cup $i $j
+				tput setab ${kolor_tk[$[ss*K+p]]};
+				tput setaf ${kolor_zk[$[ss*K+p]]};
+				tput cup $ss $p
 				echo -n " "
 			fi
 		done
 	done
 }
-
-
 
 rysuj_postac_skaczaca() #funkcja rysujaca postac w trybie skoku - $1=y wysokosci na jakiej znajdują się stopy
 {
@@ -381,17 +381,17 @@ rysowanie_planszy()
 	do
 		for((j=$[4-i+1];j<$[4+i-1];j++))
 		do
-			tput setab 3; tput setaf 3; tput cup $[i - 2] $[j+1]; echo -n "o"; tablica[$[$[i-2]*K+$[j+1]]]="o";
-			kolor_tla[$[$[i-2]*K+$[j+1]]]=3;
-			kolor_znaku[$[$[i-2]*K+$[j+1]]]=3;
+			tput setab 3; tput setaf 3; tput cup $[i - 1] $[j+1]; echo -n "o"; tablica[$[$[i-1]*K+$[j+1]]]="o";
+			kolor_tla[$[$[i-1]*K+$[j+1]]]=3;
+			kolor_znaku[$[$[i-1]*K+$[j+1]]]=3;
 		done
 	done
 
 	for((j=$[4-3+1];j<$[4+3-1];j++))
 	do
-		tput setab 3; tput setaf 3; tput cup 3 $[j+1]; echo -n "o"; tablica[$[3*K+$[j+1]]]="o";
-		kolor_tla[$[3*K+$[j+1]]]=3;
-		kolor_znaku[$[3*K+$[j+1]]]=3;
+		tput setab 3; tput setaf 3; tput cup 4 $[j+1]; echo -n "o"; tablica[$[3*K+$[j+1]]]="o";
+		kolor_tla[$[4*K+$[j+1]]]=3;
+		kolor_znaku[$[4*K+$[j+1]]]=3;
 	done
 }
 
@@ -420,7 +420,12 @@ kontrolny_wypis_tablicy_zgodny_z_kolorami()
 
 wypis_wyniku()
 {
-	tput cup 1 $[57 - ${#wynik}]; tput setab 1; tput setaf 7; echo -n "Twoj aktualny wynik to "$wynik
+	for((L=0;L<$[57 - ${#wynik}];L++))
+	do
+		tput setab 1; tput setaf 7; tput cup 1 $L; echo -n " ";
+	done
+	
+	tput cup 1 $[57 - ${#wynik}]; tput setab 1; tput setaf 7; echo -n "Twoj aktualny wynik to "$wynik; tput cup 22 82;
 }
 
 sprawdz_czy_punkt()
@@ -458,8 +463,8 @@ sprawdz_czy_zabity()
 gameover()
 {
 	clear;
-	tput setab 2;
-	tput setaf 2;
+	tput setab 9;
+	tput setaf 9;
 	clear;
 	echo "KURWA PRZEGRALES PAJACU"
 	exit;
@@ -469,10 +474,28 @@ uaktualnij()
 {
 	for((i=1;i<=$W;i++))
 	do
-		for((j=1;j<=$[K-5];j++))
+		for((j=1;j<=$[K-4];j++))
 		do
+			tak=0;
+			
 			if [ "${komin[$[i*K]+$j]}" == "K" ]
 			then
+				tak=1;
+				
+				if [ $H -eq 0 ]
+				then
+					H=$CO_ILE;
+					X=$[RANDOM%2];
+					
+					if [ $X -eq 0 ]
+					then
+						rysuj_komindolny 9;
+					else
+						rysuj_komingorny 9;
+					fi
+					wyswietl_komin;
+				fi
+				
 				komin[$[i*K]+$[j+4]]="";
 				komin[$[i*K]+$[j-1]]="K";
 				l=$[j+4];
@@ -480,10 +503,10 @@ uaktualnij()
 				tput setaf ${kolor_znaku[$[$[i*K]+l]]};
 				tput cup $i $l;
 				
-				if [ ${tablica[$[i*K+l]]} == "p" ]
+				if [ "${tablica[$[i*K+l]]}" == "p" ]
 				then
 					echo -n " "
-				elif [ ${tablica[$[i*K+l]]} == "k" ]
+				elif [ "${tablica[$[i*K+l]]}" == "k" ]
 				then
 					echo -n "*"
 				else
@@ -499,28 +522,49 @@ uaktualnij()
 					tput setaf ${kolor_zk[$[$i*$K+$[j-1]]]};
 					tput cup $i $[j-1]
 					echo -n " "
-					j=$[j+5];
+					j=$[j+4];
 				fi
 				
 				if [ $[j-1] -eq 0 ]
 				then
-					for((i=22;i>$[22-wys_komina];i--))
+					for((e=22;e>$[22-wys_komina];e--))
 					do
-						for((j=1;j<=5;j++))
+						for((z=1;z<=5;z++))
 						do
-							komin[$[i*K]+$j]="";
-							tput setab ${kolor_tla[$[$[i*K]+j]]};
-							tput setaf ${kolor_znaku[$[$[i*K]+j]]};
-							tput cup $i $j;
+							komin[$[e*K]+$z]="";
+							tput setab ${kolor_tla[$[$[e*K]+z]]};
+							tput setaf ${kolor_znaku[$[$[e*K]+z]]};
+							tput cup $e $z;
 							
-							if [ "${tablica[$[i*K+j]]}" == "p" ]
+							if [ "${tablica[$[e*K+z]]}" == "p" ]
 							then
 								echo -n " "
-							elif [ "${tablica[$[i*K+j]]}" == "k" ]
+							elif [ "${tablica[$[e*K+z]]}" == "k" ]
 							then
 								echo -n "*"
 							else
-								echo -n ${tablica[$[i*K+j]]}
+								echo -n ${tablica[$[e*K+z]]}
+							fi
+						done
+					done
+					
+					for((e=1;e<=10;e++))
+					do
+						for((z=1;z<=5;z++))
+						do
+							komin[$[e*K]+$z]="";
+							tput setab ${kolor_tla[$[$[e*K]+z]]};
+							tput setaf ${kolor_znaku[$[$[e*K]+z]]};
+							tput cup $e $z;
+							
+							if [ "${tablica[$[e*K+z]]}" == "p" ]
+							then
+								echo -n " "
+							elif [ "${tablica[$[e*K+z]]}" == "k" ]
+							then
+								echo -n "*"
+							else
+								echo -n ${tablica[$[e*K+z]]}
 							fi
 						done
 					done
@@ -528,7 +572,6 @@ uaktualnij()
 			fi
 		done
 	done
-	
 }
 
 #program glowny
@@ -543,73 +586,86 @@ max=21;
 wys_komina=9;
 rysuj_komindolny $wys_komina;
 wyswietl_komin;
-
+co=0;
 while : 
 do
-	sprawdz_czy_zabity;
-	
-	if [ $gameover -eq 1 ]
+	if [ $co -eq 0 ]
 	then
-		gameover;
+		co=1;
+		wypis_wyniku;
+		tput cup 22 82;
+		
+		read -t 0.01 -rsn1 -d '' PRESS
+		
+		last=$y;
+		
+		case "$PRESS" in
+			w) y=$[y-1] ;; # Up
+			s) y=$[y+1] ;; # Down
+			1) exit 1;
+		esac
+		
+		k=$[last-y];
+	else
+		co=0
+		sprawdz_czy_zabity;
+		
+		if [ $gameover -eq 1 ]
+		then
+			gameover;
+		fi
+		
+		sprawdz_czy_punkt;
+		
+		if [ $tak -eq 1 ]
+		then
+			wynik=$[wynik+1];
+		fi
+		
+		if [ $k -ne 0 ]
+		then
+			if [ $y -le 21 ] && [ $y -ge 19 ]
+			then
+				wyczysc_dol_planszy;
+				rysuj_postac_kucajaca $y;
+				max=$y;
+				min=$[y-7];
+				jaka=1;
+			fi
+			if [ $y -le 18 ] && [ $y -ge 14 ]
+			then
+				wyczysc_dol_planszy;
+				rysuj_postac_stojaca $y;
+				max=$y;
+				min=$[y-8];
+				jaka=2;
+			fi
+			if [ $y -le 13 ] && [ $y -ge 10 ]
+			then
+				wyczysc_dol_planszy;
+				rysuj_postac_skaczaca $y;
+				max=$y;
+				min=$[y-6];
+				jaka=3;
+			fi
+			
+			if [ $y -le 9 ]
+			then
+				y=$[y+1];
+				wyczysc_dol_planszy;
+				rysuj_postac_skaczaca $y;
+			fi
+			
+			if [ $y -ge 22 ]
+			then
+				y=$[y-1];
+				wyczysc_dol_planszy;
+				rysuj_postac_kucajaca $y;
+			fi
+		fi
+		uaktualnij;
+		H=$[H-1];
 	fi
-	
-	sprawdz_czy_punkt;
-	
-	if [ $tak -eq 1 ]
-	then
-		wynik=$[wynik+1];
-	fi
-	
-	wypis_wyniku;
-	
-	read -rsn1 -d '' PRESS
-	
-	case "$PRESS" in
-		A) y=$[y-1] ;; # Up
-		B) y=$[y+1] ;; # Down
-		1) exit 1;
-	esac
-	
-	if [ $y -le 21 ] && [ $y -ge 19 ]
-	then
-		wyczysc_dol_planszy;
-		rysuj_postac_kucajaca $y;
-		max=$y;
-		min=$[y-7];
-		jaka=1;
-	fi
-	if [ $y -le 18 ] && [ $y -ge 14 ]
-	then
-		wyczysc_dol_planszy;
-		rysuj_postac_stojaca $y;
-		max=$y;
-		min=$[y-8];
-		jaka=2;
-	fi
-	if [ $y -le 13 ] && [ $y -ge 10 ]
-	then
-		wyczysc_dol_planszy;
-		rysuj_postac_skaczaca $y;
-		max=$y;
-		min=$[y-6];
-		jaka=3;
-	fi
-	
-	if [ $y -le 9 ]
-	then
-		y=$[y+1];
-		wyczysc_dol_planszy;
-		rysuj_postac_skaczaca $y;
-	fi
-	
-	if [ $y -ge 22 ]
-	then
-		y=$[y-1];
-		wyczysc_dol_planszy;
-		rysuj_postac_kucajaca $y;
-	fi
-	
-	uaktualnij;
 done
 
 #kontrolny_wypis_tablicy_zgodny_z_kolorami;
