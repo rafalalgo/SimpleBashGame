@@ -17,3 +17,10 @@ Reszta Pomysłów Do Realizacji:
 Podział zadań nie jest jeszcze znany, będzie ustalany na bieżąco, póki co:
 1. Rafał Byczek - rysowanie kolorowej planszy do gry.
 2. Dawid Rączka - rysowanie postaci stojącej i kucającej
+3. Dawid Rączka - rysowanie kolorowych prostokątów.
+4. Rafał Byczek - obsługa i generowanie planszy w każdym możliwym momencie gry, nadpisywanie aktualnego ekranu.
+5. Rafał Byczek - cały silnik gry, generowanie przeszkód.
+6. Rafał Byczek - liczenie wyniku w grze.
+7. Rafał Byczek - sprawdzanie czy nastąpił koniec gry.
+8. Rafał Byczek - końcowe zmergowanie wszystkich gałęzi kodu do wersji finalnej.
+9. Rafał Byczek - testowanie i debugowanie błędów.
