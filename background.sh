@@ -475,7 +475,24 @@ gameover()
 	tput setab 9;
 	tput setaf 9;
 	clear;
-	echo "KURWA PRZEGRALES PAJACU"
+	tput setaf 3;
+	echo -e "\n\n\n";
+	echo "          #####                                                      ### ";
+	echo "         #     #   ##   #    # ######     ####  #    # ###### #####  ###";
+	echo "         #        #  #  ##  ## #         #    # #    # #      #    # ###";
+	echo "         #  #### #    # # ## # #####     #    # #    # #####  #    #  # ";
+	echo "         #     # ###### #    # #         #    # #    # #      #####     ";
+	echo "         #     # #    # #    # #         #    #  #  #  #      #   #  ###";
+	echo "          #####  #    # #    # ######     ####    ##   ###### #    # ###"
+	echo -e "\n";
+	echo -e "\n";
+	echo "	          	  CELEM ŻYCIA NIE JEST PRZEŻYCIE! ";
+	echo -e "\n";
+	tput setaf 5; printf "      			           TWÓJ WYNIK: ";
+	printf $wynik
+	printf "\n"
+	tput setaf 4; echo -e "\n";
+	echo -e "\n\n";
 	exit;
 }
 
