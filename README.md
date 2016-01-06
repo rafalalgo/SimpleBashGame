@@ -24,3 +24,4 @@ Podział zadań nie jest jeszcze znany, będzie ustalany na bieżąco, póki co:
 7. Rafał Byczek - sprawdzanie czy nastąpił koniec gry.
 8. Rafał Byczek - końcowe zmergowanie wszystkich gałęzi kodu do wersji finalnej.
 9. Rafał Byczek - testowanie i debugowanie błędów.
+10. Rafał Byczek - strona startowa gry.

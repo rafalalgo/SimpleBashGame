@@ -596,6 +596,7 @@ wys_komina=9;
 rysuj_komindolny $wys_komina;
 wyswietl_komin;
 co=0;
+
 while : 
 do
 	if [ $co -eq 0 ]
