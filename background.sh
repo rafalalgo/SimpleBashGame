@@ -476,7 +476,7 @@ gameover()
 	tput setaf 9;
 	clear;
 	tput setaf 3;
-	echo -e "\n\n\n";
+	echo -e "\n\n";
 	echo "          #####                                                      ### ";
 	echo "         #     #   ##   #    # ######     ####  #    # ###### #####  ###";
 	echo "         #        #  #  ##  ## #         #    # #    # #      #    # ###";
@@ -487,13 +487,20 @@ gameover()
 	echo -e "\n";
 	echo -e "\n";
 	echo "	          	  CELEM ŻYCIA NIE JEST PRZEŻYCIE! ";
-	echo -e "\n";
+	echo -e "\n"
 	tput setaf 5; printf "      			           TWÓJ WYNIK: ";
 	printf $wynik
 	printf "\n"
-	tput setaf 4; echo -e "\n";
-	echo -e "\n\n";
-	exit;
+	echo -e "\n";
+	echo "		       Wciśnij klawisz [e] aby wyjść z gry";
+	rysuj_postac_kucajaca 22;
+	tput setab 9;
+	tput setaf 9;
+	read -n1 klawisz;
+	if [ "$klawisz" == "e" ]
+	then
+		exit;
+	fi
 }
 
 uaktualnij()
