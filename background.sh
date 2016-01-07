@@ -493,7 +493,6 @@ gameover()
 	printf "\n"
 	echo -e "\n";
 	echo "		       Wciśnij klawisz [e] aby wyjść z gry";
-	rysuj_postac_kucajaca 22;
 	tput setab 9;
 	tput setaf 9;
 	read -n1 klawisz;
