@@ -498,6 +498,7 @@ gameover()
 	read -n1 klawisz;
 	if [ "$klawisz" == "e" ]
 	then
+		stty echo
 		exit;
 	fi
 }
@@ -607,7 +608,7 @@ uaktualnij()
 }
 
 #program glowny
-
+stty -echo
 welcome;
 rysowanie_planszy;
 rysuj_postac_kucajaca $y;
@@ -700,7 +701,7 @@ do
 		H=$[H-1];
 	fi
 done
-
+stty echo
 #kontrolny_wypis_tablicy_zgodny_z_kolorami;
 
 #Rafał Byczek
