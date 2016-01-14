@@ -29,5 +29,6 @@ Podział zadań nie jest jeszcze znany, będzie ustalany na bieżąco, póki co:
 13. Rafał Byczek - strona startowa gry.
 14. Dawid Rączka - strona końcowa gry.
 15. Rafal Byczek - poprawa bugow.
+16. Rafal Byczek - nowa wersja przeszkod, gra bardziej dynamiczna.
 
 *Zadania 7 i 8 kodowane przez Dawida, lecz zacommitowane przez Rafała z uwagi na problemy z git'em na komputerze Dawida.
