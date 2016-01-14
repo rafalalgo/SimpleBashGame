@@ -9,7 +9,7 @@ clear
 
 #tablica		#tu trzymamy co jest na planszy
 #kolor_znaku	#tu trzymamy numer koloru znaku
-#kolor_tla		#tu trzymamy numer koloru tla
+#kolor_tla		#tu trzymwamy numer koloru tla
 #komin			#tu trzymamy K gdy na polu jest cos z komina
 #kolor_zk		#tu trzymamy kolor znaku na polu komina
 #kolor_tk		#tu trzymamy kolor tla na polu komina
@@ -39,8 +39,11 @@ y=21; 			#wspolrzedna y-kowa stop postaci
 jaka=2;			#typ postaci do zmazania
 gameover=0;		#1 gdy koniec gdy, bo gracz dotknal komin
 wys_komina=6;	#wysokosc rysowanego kominu
-H=20;
-CO_ILE=20;
+H=11;
+CO_ILE=11;
+last=1;
+last_down=9;
+last_up=4;
 
 #funkcje
 
@@ -68,7 +71,7 @@ rysuj_komingorny()
  
 rysuj_komindolny()
 {
-    for((p=22;p>$[22-$1];p--))
+    for((p=22;p>$[23-$1];p--))
 	do
 		komin[$[p*K+75]]="K";
 		kolor_zk[$[p*K+75]]=1;
@@ -269,7 +272,7 @@ wyczysc_dol_planszy() #czyszczenie postaci w poprzednim typie celem narysowania 
 {	
 	for((i=$min;i<=$max;i++))
 	do
-		for((j=0;j<=18;j++))
+		for((j=0;j<=14;j++))
 		do
 			if [ $i -le $M ]
 			then
@@ -462,7 +465,7 @@ sprawdz_czy_zabity()
 {
 	for((i=$min;i<=$max;i++))
 	do
-		if [ "${komin[$[i*K+15]]}" == "K" ]
+		if [ "${komin[$[i*K+13]]}" == "K" ]
 		then
 			gameover=1;
 		fi
@@ -519,14 +522,38 @@ uaktualnij()
 				then
 					H=$CO_ILE;
 					X=$[RANDOM%2];
+					PP=$[last_up + 9];
+					QQ=$[last_down + 9];
 					
 					if [ $X -eq 0 ]
 					then
-						rysuj_komindolny $[RANDOM%3+7];
+						WYSOKOSC_DOLNEGO=$[21-PP];
+						WYSOKOSC_GORNEGO=$[21-WYSOKOSC_DOLNEGO-9];
+						
 					else
-						rysuj_komingorny $[RANDOM%4+9];
+						WYSOKOSC_GORNEGO=$[21-QQ];
+						WYSOKOSC_DOLNEGO=$[21-WYSOKOSC_GORNEGO-9];
 					fi
+					
+					last_up=$[WYSOKOSC_GORNEGO+1];
+					last_down=$[WYSOKOSC_DOLNEGO+1];
+					
+					rysuj_komindolny $last_down;
+					rysuj_komingorny $last_up;
+						
 					wyswietl_komin;
+				fi
+				
+				if [ $last_up -eq 0 ]
+				then
+					last_up=2;
+					lastdown=$[last_down-2];
+				fi
+				
+				if [ $last_down -eq 0 ]
+				then
+					last_down=2;
+					last_up=$[last_up-2];
 				fi
 				
 				komin[$[i*K]+$[j+4]]="";
@@ -618,6 +645,7 @@ max=21;
 
 wys_komina=9;
 rysuj_komindolny $wys_komina;
+rysuj_komingorny 4;
 wyswietl_komin;
 co=0;
 
