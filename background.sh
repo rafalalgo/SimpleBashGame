@@ -478,7 +478,7 @@ gameover()
 	tput setab 9;
 	tput setaf 9;
 	clear;
-	tput setaf 3;
+	tput setaf 2;
 	echo -e "\n\n";
 	echo "          #####                                                      ### ";
 	echo "         #     #   ##   #    # ######     ####  #    # ###### #####  ###";
@@ -491,7 +491,7 @@ gameover()
 	echo -e "\n";
 	echo "	          	  CELEM ŻYCIA NIE JEST PRZEŻYCIE! ";
 	echo -e "\n"
-	tput setaf 5; printf "      			           TWÓJ WYNIK: ";
+	tput setaf 3; printf "      			           TWÓJ WYNIK: ";
 	printf $wynik
 	printf "\n"
 	echo -e "\n";
