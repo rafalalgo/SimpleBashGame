@@ -493,6 +493,7 @@ sprawdz_czy_zabity()
 	done
 }
 
+
 gameover()
 {
 	clear;
@@ -534,7 +535,36 @@ uaktualnij()
 		for((j=1;j<=$[K-4];j++))
 		do
 			tak=0;
-			
+            
+            #Sprawdzanie czy pocisk zderzył sie z tencza:
+            if [ "${slina[$[i*K]+$j]}" == "D" ]
+            then
+            if [ "${komin[$[i*K]+$j]}" == "K" ]
+            then
+                slina[$[i*K]+$j]="";
+                for((e=$[$i-5];e<$[$i+4];e++))
+                do
+                    for((z=$[$j-1];z<=$[$j+5];z++))
+                    do
+                    komin[$[e*K]+$z]="";
+                    tput setab ${kolor_tla[$[$[e*K]+z]]};
+                    tput setaf ${kolor_znaku[$[$[e*K]+z]]};
+                    tput cup $e $z;
+                    
+                    if [ "${tablica[$[e*K+z]]}" == "p" ]
+                    then
+                        echo -n " "
+                    elif [ "${tablica[$[e*K+z]]}" == "k" ]
+                    then
+                        echo -n "*"
+                    else
+                        echo -n ${tablica[$[e*K+z]]}
+                    fi
+                    done
+                done    
+            fi
+            fi
+
 			if [ "${komin[$[i*K]+$j]}" == "K" ]
 			then
 				tak=1;
@@ -651,7 +681,8 @@ uaktualnij()
 					done
 				fi 
 			fi
-
+            
+            #Przedluzamy tor pocisku:
 			if [ "${slina[$[i*K]+$j]}" == "D" ]
 			then
                 slina[$[i*K]+$[j]]="";
@@ -728,7 +759,7 @@ do
 	else
 		co=0
 		sprawdz_czy_zabity;
-		
+	 	
 		if [ $gameover -eq 1 ]
 		then
 			gameover;
@@ -782,6 +813,7 @@ do
 				rysuj_postac_kucajaca $y;
 			fi
 		fi
+		
 		uaktualnij;
 		H=$[H-1];
 	fi
