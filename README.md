@@ -30,5 +30,6 @@ Podział zadań nie jest jeszcze znany, będzie ustalany na bieżąco, póki co:
 14. Dawid Rączka - strona końcowa gry.
 15. Rafal Byczek - poprawa bugow.
 16. Rafal Byczek - nowa wersja przeszkod, gra bardziej dynamiczna.
+17. Dawid Rączka - strzelanie śliną przez postać w każdym położeniu.
 
 *Zadania 7 i 8 kodowane przez Dawida, lecz zacommitowane przez Rafała z uwagi na problemy z git'em na komputerze Dawida.
