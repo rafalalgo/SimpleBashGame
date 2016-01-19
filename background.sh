@@ -493,7 +493,6 @@ sprawdz_czy_zabity()
 	done
 }
 
-
 gameover()
 {
 	clear;
@@ -539,30 +538,30 @@ uaktualnij()
             #Sprawdzanie czy pocisk zderzył sie z tencza:
             if [ "${slina[$[i*K]+$j]}" == "D" ]
             then
-            if [ "${komin[$[i*K]+$j]}" == "K" ]
-            then
-                slina[$[i*K]+$j]="";
-                for((e=$[$i-5];e<$[$i+4];e++))
-                do
-                    for((z=$[$j-1];z<=$[$j+5];z++))
-                    do
-                    komin[$[e*K]+$z]="";
-                    tput setab ${kolor_tla[$[$[e*K]+z]]};
-                    tput setaf ${kolor_znaku[$[$[e*K]+z]]};
-                    tput cup $e $z;
-                    
-                    if [ "${tablica[$[e*K+z]]}" == "p" ]
-                    then
-                        echo -n " "
-                    elif [ "${tablica[$[e*K+z]]}" == "k" ]
-                    then
-                        echo -n "*"
-                    else
-                        echo -n ${tablica[$[e*K+z]]}
-                    fi
-                    done
-                done    
-            fi
+				if [ "${komin[$[i*K]+$j]}" == "K" ]
+				then
+					slina[$[i*K]+$j]="";
+					for((e=$[$i-5];e<$[$i+4];e++))
+					do
+						for((z=$[$j-1];z<=$[$j+5];z++))
+						do
+						komin[$[e*K]+$z]="";
+						tput setab ${kolor_tla[$[$[e*K]+z]]};
+						tput setaf ${kolor_znaku[$[$[e*K]+z]]};
+						tput cup $e $z;
+						
+						if [ "${tablica[$[e*K+z]]}" == "p" ]
+						then
+							echo -n " "
+						elif [ "${tablica[$[e*K+z]]}" == "k" ]
+						then
+							echo -n "*"
+						else
+							echo -n ${tablica[$[e*K+z]]}
+						fi
+						done
+					done    
+				fi
             fi
 
 			if [ "${komin[$[i*K]+$j]}" == "K" ]
@@ -578,12 +577,12 @@ uaktualnij()
 					
 					if [ $X -eq 0 ]
 					then
-						WYSOKOSC_DOLNEGO=$[21-PP];
-						WYSOKOSC_GORNEGO=$[21-WYSOKOSC_DOLNEGO-9];
+						WYSOKOSC_DOLNEGO=$[27-PP];
+						WYSOKOSC_GORNEGO=$[27-WYSOKOSC_DOLNEGO-9];
 						
 					else
-						WYSOKOSC_GORNEGO=$[21-QQ];
-						WYSOKOSC_DOLNEGO=$[21-WYSOKOSC_GORNEGO-9];
+						WYSOKOSC_GORNEGO=$[27-QQ];
+						WYSOKOSC_DOLNEGO=$[27-WYSOKOSC_GORNEGO-9];
 					fi
 					
 					last_up=$[WYSOKOSC_GORNEGO+1];
@@ -706,7 +705,6 @@ uaktualnij()
                     echo -n ${tablica[$[i*K+j]]}
                 fi
 
-
                 if [ $j -le 75 ]
                 then        
                     tput setab 7;
@@ -719,7 +717,6 @@ uaktualnij()
 		done
 	done
 }
-
 
 #program glowny
 stty -echo
