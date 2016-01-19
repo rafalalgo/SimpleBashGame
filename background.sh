@@ -13,6 +13,7 @@ clear
 #komin			#tu trzymamy K gdy na polu jest cos z komina
 #kolor_zk		#tu trzymamy kolor znaku na polu komina
 #kolor_tk		#tu trzymamy kolor tla na polu komina
+#slina          #tu trzymamy D gdy na polu jest slina
 
 #odwolywanie tablica[$[i*K+j]] zwraca znak w i tym wierszu i j tej kolumnie
 
@@ -46,7 +47,6 @@ last_down=9;
 last_up=4;
 
 #funkcje
-
 rysuj_komingorny()
 {
     for((p=1;p<=$1;p++))
@@ -263,7 +263,7 @@ welcome()
 	tput setaf 4; echo -e "\n\n";
 	echo "              Nacisnij dowolny klawisz zeby rozpoczac rozgrywke.";
 	echo -e "\n";
-	echo "                     Obsługa postaci klawiszami [w] i [s]";
+	echo "             Obsługa postaci klawiszami [w] i [s], 'TFU geje' [d]";
 	echo -e "\n"
 	read -n1 zmienna;
 }
@@ -440,6 +440,27 @@ wypis_wyniku()
 	tput cup 0 $[57 - ${#wynik}]; tput setab 1; tput setaf 7; echo -n "Twoj aktualny wynik to "$wynik; tput cup 22 82;
 }
 
+pluj()
+{
+    if [ $y -le 21 ] && [ $y -ge 19 ] #jezeli kuca
+    then
+        slina[$[K*$[$1-5]+12]]="D";
+        tput setab 7; tput setaf 7; tput cup $[$1-5] 12;  echo "*";
+    fi
+
+    if [ $y -le 18 ] && [ $y -ge 14 ] #jezeli stoi
+    then
+        slina[$[K*$[$1-6]+12]]="D";
+        tput setab 7; tput setaf 7; tput cup $[$1-6] 12;  echo "*";
+    fi
+    
+    if [ $y -le 13 ] && [ $y -ge 10 ] #jezeli skacze
+    then
+        slina[$[K*$[$1-4]+12]]="D";
+        tput setab 7; tput setaf 7; tput cup $[$1-4] 12;  echo "*";
+    fi
+}
+
 sprawdz_czy_punkt()
 {
 	tak=0;
@@ -513,7 +534,36 @@ uaktualnij()
 		for((j=1;j<=$[K-4];j++))
 		do
 			tak=0;
-			
+            
+            #Sprawdzanie czy pocisk zderzył sie z tencza:
+            if [ "${slina[$[i*K]+$j]}" == "D" ]
+            then
+				if [ "${komin[$[i*K]+$j]}" == "K" ]
+				then
+					slina[$[i*K]+$j]="";
+					for((e=$[$i-5];e<$[$i+4];e++))
+					do
+						for((z=$[$j-1];z<=$[$j+5];z++))
+						do
+						komin[$[e*K]+$z]="";
+						tput setab ${kolor_tla[$[$[e*K]+z]]};
+						tput setaf ${kolor_znaku[$[$[e*K]+z]]};
+						tput cup $e $z;
+						
+						if [ "${tablica[$[e*K+z]]}" == "p" ]
+						then
+							echo -n " "
+						elif [ "${tablica[$[e*K+z]]}" == "k" ]
+						then
+							echo -n "*"
+						else
+							echo -n ${tablica[$[e*K+z]]}
+						fi
+						done
+					done    
+				fi
+            fi
+
 			if [ "${komin[$[i*K]+$j]}" == "K" ]
 			then
 				tak=1;
@@ -527,12 +577,12 @@ uaktualnij()
 					
 					if [ $X -eq 0 ]
 					then
-						WYSOKOSC_DOLNEGO=$[21-PP];
-						WYSOKOSC_GORNEGO=$[21-WYSOKOSC_DOLNEGO-9];
+						WYSOKOSC_DOLNEGO=$[27-PP];
+						WYSOKOSC_GORNEGO=$[27-WYSOKOSC_DOLNEGO-9];
 						
 					else
-						WYSOKOSC_GORNEGO=$[21-QQ];
-						WYSOKOSC_DOLNEGO=$[21-WYSOKOSC_GORNEGO-9];
+						WYSOKOSC_GORNEGO=$[27-QQ];
+						WYSOKOSC_DOLNEGO=$[27-WYSOKOSC_GORNEGO-9];
 					fi
 					
 					last_up=$[WYSOKOSC_GORNEGO+1];
@@ -583,7 +633,7 @@ uaktualnij()
 					tput cup $i $[j-1]
 					echo -n " "
 					j=$[j+4];
-				fi
+                fi
 				
 				if [ $[j-1] -eq 0 ]
 				then
@@ -628,8 +678,42 @@ uaktualnij()
 							fi
 						done
 					done
-				fi
+				fi 
 			fi
+            
+            #Przedluzamy tor pocisku:
+			if [ "${slina[$[i*K]+$j]}" == "D" ]
+			then
+                slina[$[i*K]+$[j]]="";
+                
+                if [ $j -le 75 ]
+                then
+                    slina[$[i*K]+$[j+1]]="D";
+                fi
+
+                tput setab ${kolor_tla[$[$[i*K]+j]]};
+                tput setaf ${kolor_znaku[$[$[i*K]+j]]};
+                tput cup $i $j;
+                
+                if [ "${tablica[$[i*K+j]]}" == "p" ]
+                then 
+                    echo -n " "
+                elif [ "${tablica[$[i*K+j]]}" == "k" ]
+                then
+                    echo -n "*"
+                else
+                    echo -n ${tablica[$[i*K+j]]}
+                fi
+
+                if [ $j -le 75 ]
+                then        
+                    tput setab 7;
+                    tput setaf 7;
+                    tput cup $i $[j+1]
+                    echo -n "*"
+                fi  
+			fi
+
 		done
 	done
 }
@@ -664,6 +748,7 @@ do
 		case "$PRESS" in
 			w) y=$[y-1] ;; # Up
 			s) y=$[y+1] ;; # Down
+            d) pluj $y ;; 
 			1) exit 1;
 		esac
 		
@@ -671,7 +756,7 @@ do
 	else
 		co=0
 		sprawdz_czy_zabity;
-		
+	 	
 		if [ $gameover -eq 1 ]
 		then
 			gameover;
@@ -725,6 +810,7 @@ do
 				rysuj_postac_kucajaca $y;
 			fi
 		fi
+		
 		uaktualnij;
 		H=$[H-1];
 	fi
@@ -733,4 +819,4 @@ stty echo
 #kontrolny_wypis_tablicy_zgodny_z_kolorami;
 
 #Rafał Byczek
-#Dawid Rączka
+#Dawid  Rączka
