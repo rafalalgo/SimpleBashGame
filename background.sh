@@ -270,8 +270,47 @@ wyczysc_postac_skaczaca()
 	done
 }
 
+function jumpto
+{
+    label=$1
+    cmd=$(sed -n "/$label:/{:a;n;p;ba};" $0 | grep -v ':$')
+    eval "$cmd"
+    exit
+}
+
+wyczysc()
+{
+    tan=1;   
+    min=11;      
+    max=21;  
+    szerokosc=14;    
+    controller=1;    
+    wynik=0;     
+    y=21;            
+    jaka=2;      
+    gameover=0;  
+    wys_komina=6;
+    H=11;
+    CO_ILE=11;
+    last=1;
+    last_down=9;
+    last_up=4;
+
+    for((i=1;i<=$W;i++))
+    do
+        for((j=1;j<=$K;j++))
+        do
+            komin[$[i*K+j]]="";
+            kolor_zk[$[i*K+j]]="";
+            kolor_tk[$[i*K+j]]="";
+            slina[$[i*K+j]]="";
+        done
+    done
+}
+
 welcome()
 {
+    tout setab 1;
 	tput setaf 4;
 	
 	echo -e "\n\n";
@@ -551,7 +590,7 @@ sprawdz_czy_zabity()
 gameover()
 {
 	clear;
-	tput setab 9;
+	tput setab 4;
 	tput setaf 9;
 	clear;
 	tput setaf 2;
@@ -566,17 +605,26 @@ gameover()
 	echo -e "\n";
 	echo -e "\n";
 	echo "	          	  CELEM ŻYCIA NIE JEST PRZEŻYCIE! ";
-	echo -e "\n"
+	printf "\n"
 	tput setaf 3; printf "      			           TWÓJ WYNIK: ";
 	printf $wynik
-	printf "\n"
-	echo -e "\n";
-	echo "		       Wciśnij klawisz [e] aby wyjść z gry";
+	printf "\n\n"
+	echo -e "                      Wciśnij klawisz [r] aby zagrać poniwnie";
+	echo "                     lub dowolny inny klawisz aby wyjść z gry.";
+    printf "\n"
+
+    rysuj_postac_kucajaca 20;
+
 	tput setab 9;
 	tput setaf 9;
+
 	read -n1 klawisz;
-	if [ "$klawisz" == "e" ]
-	then
+
+	if [ "$klawisz" == "r" ]
+    then
+        start=${1:-"start"}
+        jumpto $start
+	else
 		stty echo
 		exit;
 	fi
@@ -807,6 +855,8 @@ uaktualnij()
 }
 
 #program glowny
+start:
+wyczysc;
 stty -echo
 welcome;
 rysowanie_planszy;
@@ -837,7 +887,7 @@ do
 			w) y=$[y-1] ;; # Up
 			s) y=$[y+1] ;; # Down
             d) pluj $y ;; 
-			1) exit 1;
+			1) gameover;
 		esac
 		
 		k=$[last-y];
