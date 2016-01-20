@@ -47,6 +47,26 @@ last_down=9;
 last_up=4;
 
 #funkcje
+
+rysuj_glos()
+{
+	for((p=$1;p<=$[$1 + 1];p++))
+	do
+		komin[$[p*K+70]]="G";
+		kolor_zk[$[p*K+70]]=7;
+		kolor_tk[$[p*K+70]]=7;
+		komin[$[p*K+71]]="G";
+		kolor_zk[$[p*K+71]]=7;
+		kolor_tk[$[p*K+71]]=7;
+		komin[$[p*K+72]]="G";
+		kolor_zk[$[p*K+72]]=7;
+		kolor_tk[$[p*K+72]]=7;
+		komin[$[p*K+73]]="G";
+		kolor_zk[$[p*K+73]]=7;
+		kolor_tk[$[p*K+73]]=7;
+	done
+}
+
 rysuj_komingorny()
 {
     for((p=1;p<=$1;p++))
@@ -95,9 +115,16 @@ wyswietl_komin()
 {
 	for((ss=1;ss<=$W;ss++))
 	do
-		for((p=75;p<$K;p++))
+		for((p=70;p<$K;p++))
 		do
 			if [ "${komin[$[ss*K]+$p]}" == "K" ]
+			then
+				tput setab ${kolor_tk[$[ss*K+p]]};
+				tput setaf ${kolor_zk[$[ss*K+p]]};
+				tput cup $ss $p
+				echo -n " "
+			fi
+			if [ "${komin[$[ss*K]+$p]}" == "G" ]
 			then
 				tput setab ${kolor_tk[$[ss*K+p]]};
 				tput setaf ${kolor_zk[$[ss*K+p]]};
@@ -445,19 +472,19 @@ pluj()
     if [ $y -le 21 ] && [ $y -ge 19 ] #jezeli kuca
     then
         slina[$[K*$[$1-5]+12]]="D";
-        tput setab 7; tput setaf 7; tput cup $[$1-5] 12;  echo "*";
+        tput setab 7; tput setaf 7; tput cup $[$1-5] 12;  echo " ";
     fi
 
     if [ $y -le 18 ] && [ $y -ge 14 ] #jezeli stoi
     then
         slina[$[K*$[$1-6]+12]]="D";
-        tput setab 7; tput setaf 7; tput cup $[$1-6] 12;  echo "*";
+        tput setab 7; tput setaf 7; tput cup $[$1-6] 12;  echo " ";
     fi
     
     if [ $y -le 13 ] && [ $y -ge 10 ] #jezeli skacze
     then
         slina[$[K*$[$1-4]+12]]="D";
-        tput setab 7; tput setaf 7; tput cup $[$1-4] 12;  echo "*";
+        tput setab 7; tput setaf 7; tput cup $[$1-4] 12;  echo " ";
     fi
 }
 
@@ -470,6 +497,34 @@ sprawdz_czy_punkt()
 		if [ "${komin[$[i*K+15]]}" == "K" ]
 		then
 			tak=1;
+		fi
+	done
+	
+	for((i=$min;i<=$max;i++))
+	do
+		if [ "${komin[$[i*K+14]]}" == "G" ]
+		then
+			wynik=$[wynik+1];
+			for((sss=$[i-2];sss<=$[i+2];sss++))
+			do
+				for((rrr=14;rrr<=17;rrr++))
+				do
+					komin[$[sss*K+rrr]]="";
+					tput setab ${kolor_tla[$[$[sss*K]+rrr]]};
+					tput setaf ${kolor_znaku[$[$[sss*K]+rrr]]};
+					tput cup $sss $rrr
+					
+					if [ "${tablica[$[sss*K+rrr]]}" == "p" ]
+					then
+						echo -n " "
+					elif [ "${tablica[$[sss*K+rrr]]}" == "k" ]
+					then
+						echo -n "*"
+					else
+						echo -n ${tablica[$[sss*K+rrr]]}
+					fi
+				done
+			done
 		fi
 	done
 	
@@ -533,7 +588,37 @@ uaktualnij()
 	do
 		for((j=1;j<=$[K-4];j++))
 		do
-			tak=0;
+            if [ "${komin[$[i*K]+$j]}" == "G" ]
+			then
+				komin[$[i*K]+$[j+3]]="";
+				komin[$[i*K]+$[j-1]]="G";
+				l=$[j+3];
+				tput setab ${kolor_tla[$[$[i*K]+l]]};
+				tput setaf ${kolor_znaku[$[$[i*K]+l]]};
+				tput cup $i $l;
+				
+				if [ "${tablica[$[i*K+l]]}" == "p" ]
+				then
+					echo -n " "
+				elif [ "${tablica[$[i*K+l]]}" == "k" ]
+				then
+					echo -n "*"
+				else
+					echo -n ${tablica[$[i*K+l]]}
+				fi
+				
+				if [ $[j-1] -ne 0 ]
+				then
+					kolor_tk[$[$i*$K+$[j-1]]]=${kolor_tk[$[$i*$K+$l]]};
+					kolor_zk[$[$i*$K+$[j-1]]]=${kolor_zk[$[$i*$K+$l]]};
+					
+					tput setab ${kolor_tk[$[$i*$K+$[j-1]]]};
+					tput setaf ${kolor_zk[$[$i*$K+$[j-1]]]};
+					tput cup $i $[j-1]
+					echo -n " "
+					j=$[j+3];
+                fi
+            fi
             
             #Sprawdzanie czy pocisk zderzył sie z tencza:
             if [ "${slina[$[i*K]+$j]}" == "D" ]
@@ -590,7 +675,10 @@ uaktualnij()
 					
 					rysuj_komindolny $last_down;
 					rysuj_komingorny $last_up;
-						
+					
+					Z=$[RANDOM%16 + 4];
+					rysuj_glos $Z;
+					
 					wyswietl_komin;
 				fi
 				
@@ -710,7 +798,7 @@ uaktualnij()
                     tput setab 7;
                     tput setaf 7;
                     tput cup $i $[j+1]
-                    echo -n "*"
+                    echo -n " "
                 fi  
 			fi
 
