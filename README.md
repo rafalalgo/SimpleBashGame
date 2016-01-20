@@ -34,6 +34,8 @@ Podział zadań nie jest jeszcze znany, będzie ustalany na bieżąco, póki co:
 18. Dawid Rączka - niszczenie przeszkód na skutek uderzenia o nie pocisku (śliny JKM).
 19. Rafał Byczek - rysowanie kart wyborczych.
 20. Rafał Byczek - obsługa zbierania głosów za pomocą kart.
-21. Rafał Byczek & Dawid Rączka - poprawianie bugów. :)
+21. Dawid Rączka - Niszczenie kart wyborczych na skutek uderzenia pocisku.
+22. Dawid Rączka - obsługa ponownego grania w grę i wychodzenia z gry przez ekran końcowy.
+23. Rafał Byczek & Dawid Rączka - poprawianie bugów. :)
 
 *Zadania 7 i 8 kodowane przez Dawida, lecz zacommitowane przez Rafała z uwagi na problemy z git'em na komputerze Dawida.
