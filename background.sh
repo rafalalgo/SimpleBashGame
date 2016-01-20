@@ -283,6 +283,7 @@ wyczysc()
 
 welcome()
 {
+    tout setab 1;
 	tput setaf 4;
 	
 	echo -e "\n\n";
