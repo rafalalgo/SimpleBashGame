@@ -32,5 +32,8 @@ Podział zadań nie jest jeszcze znany, będzie ustalany na bieżąco, póki co:
 16. Rafal Byczek - nowa wersja przeszkod, gra bardziej dynamiczna.
 17. Dawid Rączka - strzelanie pociskami (śliną) przez postać w każdym położeniu.
 18. Dawid Rączka - niszczenie przeszkód na skutek uderzenia o nie pocisku (śliny JKM).
+19. Rafał Byczek - rysowanie kart wyborczych.
+20. Rafał Byczek - obsługa zbierania głosów za pomocą kart.
+21. Rafał Byczek & Dawid Rączka - poprawianie bugów. :)
 
 *Zadania 7 i 8 kodowane przez Dawida, lecz zacommitowane przez Rafała z uwagi na problemy z git'em na komputerze Dawida.
