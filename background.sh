@@ -47,6 +47,20 @@ last_down=9;
 last_up=4;
 
 #funkcje
+
+rysuj_glos()
+{
+	for((p=$1;p<=$[$1 + 2];p++))
+	do
+		komin[$[p*K+71]]="G";
+		kolor_zk[$[p*K+71]]=7;
+		kolor_tk[$[p*K+71]]=7;
+		komin[$[p*K+72]]="G";
+		kolor_zk[$[p*K+72]]=7;
+		kolor_tk[$[p*K+72]]=7;
+	done
+}
+
 rysuj_komingorny()
 {
     for((p=1;p<=$1;p++))
@@ -95,9 +109,16 @@ wyswietl_komin()
 {
 	for((ss=1;ss<=$W;ss++))
 	do
-		for((p=75;p<$K;p++))
+		for((p=71;p<$K;p++))
 		do
 			if [ "${komin[$[ss*K]+$p]}" == "K" ]
+			then
+				tput setab ${kolor_tk[$[ss*K+p]]};
+				tput setaf ${kolor_zk[$[ss*K+p]]};
+				tput cup $ss $p
+				echo -n " "
+			fi
+			if [ "${komin[$[ss*K]+$p]}" == "G" ]
 			then
 				tput setab ${kolor_tk[$[ss*K+p]]};
 				tput setaf ${kolor_zk[$[ss*K+p]]};
@@ -533,7 +554,10 @@ uaktualnij()
 	do
 		for((j=1;j<=$[K-4];j++))
 		do
-			tak=0;
+            if [ "${komin[$[i*K]+$j]}" == "G" ]
+			then
+            
+            fi
             
             #Sprawdzanie czy pocisk zderzył sie z tencza:
             if [ "${slina[$[i*K]+$j]}" == "D" ]
@@ -590,7 +614,10 @@ uaktualnij()
 					
 					rysuj_komindolny $last_down;
 					rysuj_komingorny $last_up;
-						
+					
+					Z=$[RANDOM%20];
+					rysuj_glos $Z;
+					
 					wyswietl_komin;
 				fi
 				
