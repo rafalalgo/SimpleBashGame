@@ -231,6 +231,43 @@ rysuj_postac_stojaca() #funkcja rysujaca postac w trybie stojacym - $1=y wysokos
 	tput setab 7; tput setaf 7;				 	echo -n "   ";
 }
 
+rysuj_postac_stojaca2() #funkcja rysujaca postac w trybie stojacym - $1=y wysokosci na jakiej znajdują się stopy
+{
+	# GŁOWA
+	
+	tput setab 7; tput setaf 7; tput cup $[$1-8] 9;  echo "#";
+	tput setab 3; tput setaf 3; tput cup $[$1-8] 10; echo " ";
+	tput setab 7; tput setaf 7; tput cup $[$1-8] 11; echo "#";
+	tput setab 3; tput setaf 3; tput cup $[$1-7] 8;  echo " ";
+	tput setab 9; tput setaf 9; tput cup $[$1-7] 9;  echo "*";
+	tput setab 3; tput setaf 3; tput cup $[$1-7] 10; echo " ";
+	tput setab 9; tput setaf 9; tput cup $[$1-7] 11; echo "*";
+	tput setab 3; tput setaf 3; tput cup $[$1-7] 12; echo " ";
+	tput setab 3; tput setaf 3; tput cup $[$1-6] 9;  echo "[-]";
+	tput setab 1; tput setaf 1; tput cup $[$1-5] 9;  echo ">-<";
+	
+	#KLATKA PIERSIOWA
+
+	tput setab 9; tput setaf 9; tput cup $[$1-4] 7;  echo "   ";
+	tput setab 7; tput setaf 7; tput cup $[$1-4] 10; echo " ";
+	tput setab 9; tput setaf 9; tput cup $[$1-4] 11; echo "   ";
+	tput setab 9; tput setaf 9; tput cup $[$1-3] 6;  echo "    ";
+	tput setab 7; tput setaf 7; tput cup $[$1-3] 10; echo " ";
+	tput setab 9; tput setaf 9; tput cup $[$1-3] 11; echo "    ";
+	tput setab 3; tput setaf 3; tput cup $[$1-2] 6;  echo "||";
+	tput setab 9; tput setaf 9; tput cup $[$1-2] 8;  echo "     ";
+	tput setab 3; tput setaf 3; tput cup $[$1-2] 13; echo "||";
+	
+	#SPODNIE
+	
+	tput setab 9; tput setaf 9; tput cup $[$1-1] 8;  echo -n "  ";
+	tput setab 4; tput setaf 4;                 echo -n " ";
+	tput setab 9; tput setaf 9;				    echo -n "  "; 
+	tput setab 7; tput setaf 7; tput cup $1 7;  echo -n "   ";
+	tput setab 4; tput setaf 4;				 	echo -n " ";
+	tput setab 7; tput setaf 7;				 	echo -n "   ";
+}
+
 wyczysc_postac_stojaca()
 {
 	for((i=$[$1-7];i<=$1;i++))
@@ -539,32 +576,35 @@ sprawdz_czy_punkt()
 		fi
 	done
 	
-	for((i=$min;i<=$max;i++))
+	for((jj=8;jj<=14;jj++))
 	do
-		if [ "${komin[$[i*K+14]]}" == "G" ]
-		then
-			wynik=$[wynik+1];
-			for((sss=$[i-2];sss<=$[i+2];sss++))
-			do
-				for((rrr=14;rrr<=17;rrr++))
+		for((i=$min;i<=$max;i++))
+		do
+			if [ "${komin[$[i*K+jj]]}" == "G" ]
+			then
+				wynik=$[wynik+1];
+				for((sss=$[i-2];sss<=$[i+2];sss++))
 				do
-					komin[$[sss*K+rrr]]="";
-					tput setab ${kolor_tla[$[$[sss*K]+rrr]]};
-					tput setaf ${kolor_znaku[$[$[sss*K]+rrr]]};
-					tput cup $sss $rrr
-					
-					if [ "${tablica[$[sss*K+rrr]]}" == "p" ]
-					then
-						echo -n " "
-					elif [ "${tablica[$[sss*K+rrr]]}" == "k" ]
-					then
-						echo -n "*"
-					else
-						echo -n ${tablica[$[sss*K+rrr]]}
-					fi
+					for((rrr=14;rrr<=17;rrr++))
+					do
+						komin[$[sss*K+rrr]]="";
+						tput setab ${kolor_tla[$[$[sss*K]+rrr]]};
+						tput setaf ${kolor_znaku[$[$[sss*K]+rrr]]};
+						tput cup $sss $rrr
+						
+						if [ "${tablica[$[sss*K+rrr]]}" == "p" ]
+						then
+							echo -n " "
+						elif [ "${tablica[$[sss*K+rrr]]}" == "k" ]
+						then
+							echo -n "*"
+						else
+							echo -n ${tablica[$[sss*K+rrr]]}
+						fi
+					done
 				done
-			done
-		fi
+			fi
+		done
 	done
 	
 	for((i=$[max+1];i<=22;i++))
@@ -578,12 +618,15 @@ sprawdz_czy_punkt()
 
 sprawdz_czy_zabity()
 {
-	for((i=$min;i<=$max;i++))
+	for((j=6;j<=13;j++))
 	do
-		if [ "${komin[$[i*K+13]]}" == "K" ]
-		then
-			gameover=1;
-		fi
+		for((i=$min;i<=$max;i++))
+		do
+			if [ "${komin[$[i*K+j]]}" == "K" ]
+			then
+				gameover=1;
+			fi
+		done
 	done
 }
 
@@ -613,7 +656,7 @@ gameover()
 	echo "                     lub dowolny inny klawisz aby wyjść z gry.";
     printf "\n"
 
-    rysuj_postac_kucajaca 20;
+    rysuj_postac_stojaca2 20;
 
 	tput setab 9;
 	tput setaf 9;
@@ -634,6 +677,30 @@ uaktualnij()
 {
 	for((i=1;i<=$W;i++))
 	do
+		if [ "${komin[$[$[i*K] + 1]]}" == "G" ]
+		then
+			for((e=1;e<=22;e++))
+			do
+				for((z=1;z<=5;z++))
+				do
+					komin[$[e*K]+$z]="";
+					tput setab ${kolor_tla[$[$[e*K]+z]]};
+					tput setaf ${kolor_znaku[$[$[e*K]+z]]};
+					tput cup $e $z;
+					
+					if [ "${tablica[$[e*K+z]]}" == "p" ]
+					then
+						echo -n " "
+					elif [ "${tablica[$[e*K+z]]}" == "k" ]
+					then
+						echo -n "*"
+					else
+						echo -n ${tablica[$[e*K+z]]}
+					fi
+				done
+			done
+		fi
+		
 		for((j=1;j<=$[K-4];j++))
 		do
             
@@ -674,6 +741,7 @@ uaktualnij()
 			then
 				komin[$[i*K]+$[j+3]]="";
 				komin[$[i*K]+$[j-1]]="G";
+				
 				l=$[j+3];
 				tput setab ${kolor_tla[$[$[i*K]+l]]};
 				tput setaf ${kolor_znaku[$[$[i*K]+l]]};
@@ -809,30 +877,9 @@ uaktualnij()
 					j=$[j+4];
                 fi
 				
-				if [ $[j-1] -eq 0 ]
+				if [ $j -lt 5 ]
 				then
-					for((e=22;e>10;e--))
-					do
-						for((z=1;z<=5;z++))
-						do
-							komin[$[e*K]+$z]="";
-							tput setab ${kolor_tla[$[$[e*K]+z]]};
-							tput setaf ${kolor_znaku[$[$[e*K]+z]]};
-							tput cup $e $z;
-							
-							if [ "${tablica[$[e*K+z]]}" == "p" ]
-							then
-								echo -n " "
-							elif [ "${tablica[$[e*K+z]]}" == "k" ]
-							then
-								echo -n "*"
-							else
-								echo -n ${tablica[$[e*K+z]]}
-							fi
-						done
-					done
-					
-					for((e=1;e<=14;e++))
+					for((e=1;e<=22;e++))
 					do
 						for((z=1;z<=5;z++))
 						do
@@ -887,7 +934,6 @@ uaktualnij()
                     echo -n " "
                 fi  
 			fi
-
 		done
 	done
 }
