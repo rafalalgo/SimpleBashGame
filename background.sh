@@ -578,12 +578,15 @@ sprawdz_czy_punkt()
 
 sprawdz_czy_zabity()
 {
-	for((i=$min;i<=$max;i++))
+	for((j=5;j<=13;j++)) 
 	do
-		if [ "${komin[$[i*K+13]]}" == "K" ]
-		then
-			gameover=1;
-		fi
+		for((i=$min;i<=$max;i++))
+		do
+			if [ "${komin[$[i*K+j]]}" == "K" ]
+			then
+				gameover=1;
+			fi
+		done
 	done
 }
 
@@ -613,7 +616,7 @@ gameover()
 	echo "                     lub dowolny inny klawisz aby wyjść z gry.";
     printf "\n"
 
-    rysuj_postac_kucajaca 20;
+    rysuj_postac_stojaca 0;
 
 	tput setab 9;
 	tput setaf 9;
@@ -771,9 +774,9 @@ uaktualnij()
 					j=$[j+4];
                 fi
 				
-				if [ $[j-1] -eq 0 ]
+				if [ $[j-1] -eq 0 ] || [ $[j-2] -eq 0 ]
 				then
-					for((e=22;e>10;e--))
+					for((e=22;e>1;e--))
 					do
 						for((z=1;z<=5;z++))
 						do
