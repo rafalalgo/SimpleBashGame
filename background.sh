@@ -578,15 +578,12 @@ sprawdz_czy_punkt()
 
 sprawdz_czy_zabity()
 {
-	for((j=5;j<=13;j++)) 
+	for((i=$min;i<=$max;i++))
 	do
-		for((i=$min;i<=$max;i++))
-		do
-			if [ "${komin[$[i*K+j]]}" == "K" ]
-			then
-				gameover=1;
-			fi
-		done
+		if [ "${komin[$[i*K+13]]}" == "K" ]
+		then
+			gameover=1;
+		fi
 	done
 }
 
@@ -616,7 +613,7 @@ gameover()
 	echo "                     lub dowolny inny klawisz aby wyjść z gry.";
     printf "\n"
 
-    rysuj_postac_stojaca 0;
+    rysuj_postac_kucajaca 20;
 
 	tput setab 9;
 	tput setaf 9;
@@ -639,6 +636,40 @@ uaktualnij()
 	do
 		for((j=1;j<=$[K-4];j++))
 		do
+            
+            #Usuwanie karty do głosowania jeżeli napotka ją ślina
+            if [ "${slina[$[i*K]+$j]}" == "D" ]
+            then
+                if [ "${komin[$[i*K]+$j]}" == "G" ]
+                then
+                    slina[$[i*K]+$j]="";
+                    
+                    for((e=$[$i-1];e<=$[$i+1];e++))
+                    do
+                        for((z=$[$j-1];z<=$[$j+4];z++))
+                        do
+                            if [ "${komin[$[e*K]+$z]}" == "G" ]
+                            then
+                                komin[$[e*K]+$z]="";
+                                tput setab ${kolor_tla[$[$[e*K]+z]]};
+                                tput setaf ${kolor_znaku[$[$[e*K]+z]]};
+                                tput cup $e $z;
+                                                                                                                            
+                                if [ "${tablica[$[e*K+z]]}" == "p" ]
+                                then
+                                    echo -n " "
+                                elif [ "${tablica[$[e*K+z]]}" == "k" ]
+                                then
+                                    echo -n "*"
+                                else
+                                    echo -n ${tablica[$[e*K+z]]}
+                                fi
+                            fi
+                        done
+                    done
+                fi
+            fi
+
             if [ "${komin[$[i*K]+$j]}" == "G" ]
 			then
 				komin[$[i*K]+$[j+3]]="";
@@ -681,20 +712,24 @@ uaktualnij()
 					do
 						for((z=$[$j-1];z<=$[$j+5];z++))
 						do
-						komin[$[e*K]+$z]="";
-						tput setab ${kolor_tla[$[$[e*K]+z]]};
-						tput setaf ${kolor_znaku[$[$[e*K]+z]]};
-						tput cup $e $z;
+
+						if [ "${komin[$[e*K]+$z]}" == "K" ]
+						then
+						    komin[$[e*K]+$z]="";
+					    	tput setab ${kolor_tla[$[$[e*K]+z]]};
+					    	tput setaf ${kolor_znaku[$[$[e*K]+z]]};
+					    	tput cup $e $z;
 						
-						if [ "${tablica[$[e*K+z]]}" == "p" ]
-						then
-							echo -n " "
-						elif [ "${tablica[$[e*K+z]]}" == "k" ]
-						then
-							echo -n "*"
-						else
-							echo -n ${tablica[$[e*K+z]]}
-						fi
+					    	if [ "${tablica[$[e*K+z]]}" == "p" ]
+				    		then
+				    			echo -n " "
+				    		elif [ "${tablica[$[e*K+z]]}" == "k" ]
+				    		then
+				    			echo -n "*"
+				    		else
+					    		echo -n ${tablica[$[e*K+z]]}
+					    	fi
+					    fi
 						done
 					done    
 				fi
@@ -774,9 +809,9 @@ uaktualnij()
 					j=$[j+4];
                 fi
 				
-				if [ $[j-1] -eq 0 ] || [ $[j-2] -eq 0 ]
+				if [ $[j-1] -eq 0 ]
 				then
-					for((e=22;e>1;e--))
+					for((e=22;e>10;e--))
 					do
 						for((z=1;z<=5;z++))
 						do
