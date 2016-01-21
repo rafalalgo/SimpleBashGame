@@ -620,7 +620,7 @@ sprawdz_czy_punkt()
 					min=$[y-8];
 					jaka=2;
 				fi
-				if [ $y -le 13 ] && [ $y -ge 10 ]
+				if [ $y -le 13 ] && [ $y -ge 8 ]
 				then
 					wyczysc_dol_planszy;
 					rysuj_postac_skaczaca $y;
@@ -629,7 +629,7 @@ sprawdz_czy_punkt()
 					jaka=3;
 				fi
 				
-				if [ $y -le 9 ]
+				if [ $y -le 7 ]
 				then
 					y=$[y+1];
 					wyczysc_dol_planszy;
