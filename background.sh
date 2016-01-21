@@ -703,8 +703,25 @@ uaktualnij()
 		
 		for((j=1;j<=$[K-4];j++))
 		do
-            
-            #Usuwanie karty do głosowania jeżeli napotka ją ślina
+            if [ "${komin[$[i*K]+$j]}" == "G1" ]
+            then
+                komin[$[i*K]+$j]="";
+                tput setab ${kolor_tla[$[$[i*K]+j]]};
+                tput setaf ${kolor_znaku[$[$[i*K]+j]]};
+                tput cup $i $j;
+                                                                                                                                                                        
+                if [ "${tablica[$[i*K+j]]}" == "p" ]
+                    then
+                        echo -n " "
+                    elif [ "${tablica[$[i*K+j]]}" == "k" ]
+                    then
+                        echo -n "*"
+                    else
+                        echo -n ${tablica[$[e*K+z]]}
+                fi
+            fi
+
+            #zmiana koloru karty do głosowania jeżeli napotka ją ślina
             if [ "${slina[$[i*K]+$j]}" == "D" ]
             then
                 if [ "${komin[$[i*K]+$j]}" == "G" ]
@@ -717,20 +734,12 @@ uaktualnij()
                         do
                             if [ "${komin[$[e*K]+$z]}" == "G" ]
                             then
-                                komin[$[e*K]+$z]="";
-                                tput setab ${kolor_tla[$[$[e*K]+z]]};
-                                tput setaf ${kolor_znaku[$[$[e*K]+z]]};
+                                komin[$[e*K]+$z]="G1";
+                                tput setab 6;
+                                tput setaf 6;
                                 tput cup $e $z;
                                                                                                                             
-                                if [ "${tablica[$[e*K+z]]}" == "p" ]
-                                then
-                                    echo -n " "
-                                elif [ "${tablica[$[e*K+z]]}" == "k" ]
-                                then
-                                    echo -n "*"
-                                else
-                                    echo -n ${tablica[$[e*K+z]]}
-                                fi
+                                echo -n " "
                             fi
                         done
                     done
