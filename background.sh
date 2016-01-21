@@ -576,7 +576,7 @@ sprawdz_czy_punkt()
 		fi
 	done
 	
-	for((jj=8;jj<=14;jj++))
+	for((jj=8;jj<=15;jj++))
 	do
 		for((i=$min;i<=$max;i++))
 		do
@@ -585,7 +585,7 @@ sprawdz_czy_punkt()
 				wynik=$[wynik+1];
 				for((sss=$[i-2];sss<=$[i+2];sss++))
 				do
-					for((rrr=14;rrr<=17;rrr++))
+					for((rrr=$jj;rrr<=$[jj+3];rrr++))
 					do
 						komin[$[sss*K+rrr]]="";
 						tput setab ${kolor_tla[$[$[sss*K]+rrr]]};
@@ -603,6 +603,45 @@ sprawdz_czy_punkt()
 						fi
 					done
 				done
+				
+				if [ $y -le 21 ] && [ $y -ge 19 ]
+				then
+					wyczysc_dol_planszy;
+					rysuj_postac_kucajaca $y;
+					max=$y;
+					min=$[y-7];
+					jaka=1;
+				fi
+				if [ $y -le 18 ] && [ $y -ge 14 ]
+				then
+					wyczysc_dol_planszy;
+					rysuj_postac_stojaca $y;
+					max=$y;
+					min=$[y-8];
+					jaka=2;
+				fi
+				if [ $y -le 13 ] && [ $y -ge 10 ]
+				then
+					wyczysc_dol_planszy;
+					rysuj_postac_skaczaca $y;
+					max=$y;
+					min=$[y-6];
+					jaka=3;
+				fi
+				
+				if [ $y -le 9 ]
+				then
+					y=$[y+1];
+					wyczysc_dol_planszy;
+					rysuj_postac_skaczaca $y;
+				fi
+				
+				if [ $y -ge 22 ]
+				then
+					y=$[y-1];
+					wyczysc_dol_planszy;
+					rysuj_postac_kucajaca $y;
+				fi
 			fi
 		done
 	done
@@ -618,7 +657,7 @@ sprawdz_czy_punkt()
 
 sprawdz_czy_zabity()
 {
-	for((j=6;j<=13;j++))
+	for((j=6;j<=14;j++))
 	do
 		for((i=$min;i<=$max;i++))
 		do
@@ -966,6 +1005,9 @@ co=0;
 
 while : 
 do
+	sprawdz_czy_punkt;
+	sprawdz_czy_zabity;
+		
 	if [ $co -eq 0 ]
 	then
 		co=1;
@@ -982,6 +1024,9 @@ do
             d) pluj $y ;; 
 			1) gameover;
 		esac
+		
+		sprawdz_czy_punkt;
+		sprawdz_czy_zabity;
 		
 		k=$[last-y];
 	else
