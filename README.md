@@ -3,16 +3,17 @@ Wykonawcy Projektu:
 2. Dawid Rączka
 
 Minimalna Działająca Wersja:
-1. Ładne kolorowe tło, drzewka, słoneczko.
-2. Postać stojąca w miejscu (w dolnym prawym rogu ekranu gry), mogąca podskakiwać, lekko się schylać lub kłaść się na ziemi - zmiany za pomocą stosownych klawiszy.
-3. W grze będą pojawiać się przeszkody dwojakiego typu
-   a) wysokie - aby je ominąć gracz będzie się musiał schylić.
-   b) niskie - aby je ominąć gracz będzie musiał podskoczyć.
-Przeszkody będą się pojawiać od prawej strony ekranu w losowych miejscach na wysokości ciała postaci i będą zmierzać w jej kierunku. Naszym celem jest je omijać. Koniec gry, gdy  nie uda się ominąć przeszkody.
+1. Ładne kolorowe tło, drzewka, słoneczko (tak jak będzie w akapie).
+2. Postać (JKM - w eleganckim garniturze, obowiązkowo z muchą) stojąca w miejscu (w dolnym prawym rogu ekranu gry), mogąca przemieszczać się w górę lub w dół (trzy główne pozycje postaci: kucanie, stanie, szpagat) - zmiany za pomocą stosownych klawiszy.
+3. W grze będą pojawiać się przeszkody (tęczowe rurkowce) dwojakiego typu
+   a) zwisające z góry - aby je ominąć gracz będzie musiał przemieścić się w dół.
+   b) stojące na ziemi - aby je ominąć gracz będzie musiał przemieścić się w górę.
+Przeszkody będą się pojawiać od prawej strony ekranu w losowych miejscach, losowej wielkości i będą zmierzać w stronę krula. Naszym celem jest je omijać. Koniec gry, gdy  nie uda się ominąć przeszkody.
+4. Licznik wyniku - w miarę pokonywania odległości, będziemy otrzymywali punkty (po jednym za każdego ominiętego rurkowca).
 
 Reszta Pomysłów Do Realizacji:
-1. W grze będą się pojawiać monety, które gracz będzie mógł zbierać i dostawać punkty, a także serca dodające życie. Gracz ma wstępnie załadowany pakiet trzech żyć, liczby trzech żyć nie może także przekroczyć zbierając serca.
-2. Postać zostanie wyposażona w pistolet, którym będzie mogła zabijać trzeci typ przeszkód, którym będą jakieś ludki, które będą się zbliżać w jej stronę, ale w miarę możliwości będzie je mogła także przeskakiwać.
+1. W grze będą się pojawiać karty do głosowania, które JKM będzie mógł zbierać i dostawać dodatkowe punkty (po jednym za każdy głos).
+2. Postać zostanie wyposażona w plucie (słynne "tfu" JKM'a), którym będzie mogła niszczyć rurkowce (w tej wersji rurkowce będą generowane częściej i w takiej wielkości, że ominięcie ich bez niszczenia będzie często niemożliwe), ale ślina będzie też moczyła karty do głosowania i nie będziemy mogli ich już zebrać.
 
 Podział zadań nie jest jeszcze znany, będzie ustalany na bieżąco, póki co:
 1. Rafał Byczek - rysowanie kolorowej planszy do gry.
